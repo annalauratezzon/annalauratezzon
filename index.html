@@ -4489,11 +4489,10 @@ function initViaggioPath() {
   _vpTotal = _vpEl.getTotalLength();
   if (!_vpTotal) return;
 
-  // Arc-length offset % per ogni tappa
-  viaggioPathOffsets = VIAGGIO_PATH_COORDS.map(([px, py], i) => {
+  // Arc-length offset % per ogni tappa (usa pxPts già calcolato)
+  viaggioPathOffsets = pxPts.map(([tx, ty], i) => {
     if (i === 0) return 0;
-    if (i === VIAGGIO_PATH_COORDS.length - 1) return 100;
-    const tx = px * w / 100, ty = py * h / 100;
+    if (i === pxPts.length - 1) return 100;
     let minD = Infinity, best = 0;
     for (let s = 0; s <= 2000; s++) {
       const l = s / 2000 * _vpTotal;
@@ -4504,8 +4503,13 @@ function initViaggioPath() {
     return (best / _vpTotal) * 100;
   });
 
-  // Posiziona il segnalino alla tappa corrente senza animazione
-  _vpSetPos(viaggioPathOffsets[viaggioPosTappa]);
+  // Posiziona il segnalino immediatamente (senza transizione CSS)
+  const seg = document.getElementById('viaggio-seg');
+  if (seg) {
+    seg.style.transition = 'none';
+    _vpSetPos(viaggioPathOffsets[viaggioPosTappa]);
+    requestAnimationFrame(() => { if (seg) seg.style.transition = ''; });
+  }
 }
 
 function initViaggio() {

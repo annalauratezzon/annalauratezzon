@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/alt-privato/Desktop/museo-delta/img/mappa_1.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/alt-privato/Desktop/museo-delta/img/mappa_2.png)"
+    ]
+  }
+}

@@ -244,6 +244,8 @@
     letter-spacing: .05em;
   }
 
+  /* test */
+
   .select-body {
     flex: 1;
     display: flex;
@@ -4458,6 +4460,7 @@ function animateSegnalinoAlongPath(fromPct, toPct) {
 }
 
 function initViaggioPath() {
+  if (_vpRaf) { cancelAnimationFrame(_vpRaf); _vpRaf = null; }
   const col = document.querySelector('.viaggio-mappa-col');
   if (!col) return;
   const w = col.offsetWidth, h = col.offsetHeight;
@@ -4605,7 +4608,7 @@ function renderViaggioGioco() {
         <div id="viaggio-suggerimento-area"></div>
       </div>
     </div>`;
-  requestAnimationFrame(initViaggioPath);
+  initViaggioPath();
 }
 
 function viaggioMostraAiuto() {

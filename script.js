@@ -1,5 +1,26 @@
 
 /* ══════════════════════════════════════
+   SUPABASE
+══════════════════════════════════════ */
+const SUPABASE_URL = 'https://wyvmxvnpepejodjyemoa.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_rBYqzomAmr2djOmrpui8aA_59n7y0et';
+
+async function sbFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}${path}`, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+/* ══════════════════════════════════════
    GIOCO 2 — ABBINAMENTO
 ══════════════════════════════════════ */
 const ABBINAMENTO_DATI = [
@@ -998,7 +1019,7 @@ function prossimaDomandaSec() {
   renderQuizSec();
 }
 
-function mostraRiepilogoSec() {
+async function mostraRiepilogoSec() {
   qsStopTimer();
   const maxPunti = QUIZ_SEC_DOMANDE.length * Math.round((QUIZ_SEC_PUNTI_BASE + QUIZ_SEC_PUNTI_BONUS) * qsScoreMult);
   const pct = Math.round((qsPunteggio / maxPunti) * 100);
@@ -1033,8 +1054,7 @@ function mostraRiepilogoSec() {
 
   if (pct >= 80) { setTimeout(esplodiCoriandoli, 300); setTimeout(suonaVittoria, 100); }
 
-  // Salva in classifica
-  salvaInClassifica('quiz-sec', qsPunteggio);
+  salvaInClassifica('quiz-sec', qsPunteggio).catch(console.error);
 }
 
 
@@ -1043,8 +1063,6 @@ function mostraRiepilogoSec() {
 ══════════════════════════════════════ */
 let currentFascia = 'primaria';
 let profiloCorrente = { nome: null, avatar: null, partecipa: false };
-
-const LEADERBOARD_KEY = 'delta_leaderboard_sec';
 
 function renderSelectBody() {
   const fasciaNome = currentFascia === 'primaria'
@@ -1055,11 +1073,7 @@ function renderSelectBody() {
   if (!body) return;
   const cardsHTML = giochi.map(g => {
     const lbKey = g.leaderboard;
-    const hasEntries = lbKey && (() => {
-      try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]').filter(r => r.gioco === lbKey).length > 0; }
-      catch { return false; }
-    })();
-    const lbLink = (lbKey && profiloCorrente.partecipa && hasEntries)
+    const lbLink = (lbKey && profiloCorrente.partecipa)
       ? `<button class="btn-link-secondario" style="font-size:13px;padding:0" onclick="event.stopPropagation();mostraLeaderboardDaLista('${lbKey}')">🏆 Guarda la classifica</button>`
       : '';
     return `
@@ -1147,25 +1161,26 @@ function saltaClassifica() {
   showScreen('screen-select');
 }
 
-function salvaInClassifica(gioco, punti) {
+async function salvaInClassifica(gioco, punti) {
   if (!profiloCorrente.partecipa) return;
-  const lb = JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]');
-  lb.push({
-    nome: profiloCorrente.nome,
-    avatar: profiloCorrente.avatar,
-    punti,
-    gioco,
-    data: new Date().toISOString()
+  await sbFetch('/rest/v1/Leaderboard', {
+    method: 'POST',
+    headers: { 'Prefer': 'return=minimal' },
+    body: JSON.stringify({
+      nome: profiloCorrente.nome,
+      avatar: profiloCorrente.avatar,
+      punti,
+      gioco
+    })
   });
-  localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(lb));
 }
 
 function mostraLeaderboardDaLista(gioco) {
   showScreen('screen-game');
-  const titles = { 'quiz-sec': 'Quiz a Tempo', 'gestisci': 'Gestisci il Delta' };
+  const titles = { 'quiz-sec': 'Quiz a Tempo', 'gestisci': 'Gestisci il Delta', 'viaggio': 'In viaggio nel Delta' };
   document.getElementById('game-header-title').textContent = titles[gioco] || gioco;
   aggiornaFasciaBadge();
-  mostraLeaderboard(gioco, null);
+  mostraLeaderboard(gioco, null).catch(console.error);
 }
 
 function rigiocaGioco(gioco) {
@@ -1177,22 +1192,35 @@ function rigiocaGioco(gioco) {
   }
 }
 
-function mostraLeaderboard(gioco, puntiCorrente) {
-  const lb = JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]');
+async function mostraLeaderboard(gioco, puntiCorrente) {
+  const titoloGioco = { 'quiz-sec': 'Quiz a Tempo', 'gestisci': 'Gestisci il Delta', 'viaggio': 'In viaggio nel Delta' }[gioco] || gioco;
 
-  // Filtra per gioco e ordina: punti desc, poi data desc
-  const lista = lb
-    .filter(r => r.gioco === gioco)
-    .sort((a, b) => b.punti - a.punti || new Date(b.data) - new Date(a.data));
+  document.getElementById('game-area').innerHTML = `
+    <div class="leaderboard-wrap">
+      <div class="leaderboard-header">
+        <div class="leaderboard-titolo">🏆 Classifica — ${titoloGioco}</div>
+      </div>
+      <div class="leaderboard-lista"><div class="lb-fuori-top">Caricamento…</div></div>
+    </div>`;
 
-  // Trova posizione corrente (ultima entry con stesso nome e punti)
+  let lista;
+  try {
+    lista = await sbFetch(`/rest/v1/Leaderboard?gioco=eq.${encodeURIComponent(gioco)}&order=punti.desc,created_at.desc`);
+  } catch (e) {
+    document.querySelector('.leaderboard-lista').innerHTML = '<div class="lb-fuori-top">Errore nel caricamento. Riprova.</div>';
+    console.error(e);
+    return;
+  }
+
+  // Trova posizione corrente: l'ultima entry aggiunta con stesso nome e punti
   let posizioneCorrente = -1;
   if (profiloCorrente.partecipa && puntiCorrente !== null) {
-    // Trova l'indice dell'entry appena aggiunta
+    let latestDate = null;
     for (let i = 0; i < lista.length; i++) {
-      if (lista[i].nome === profiloCorrente.nome && lista[i].punti === puntiCorrente) {
-        // Prendi l'ultima occorrenza (la più recente)
-        if (posizioneCorrente === -1 || new Date(lista[i].data) > new Date(lista[posizioneCorrente].data)) {
+      const r = lista[i];
+      if (r.nome === profiloCorrente.nome && r.punti === puntiCorrente) {
+        if (latestDate === null || new Date(r.created_at) > latestDate) {
+          latestDate = new Date(r.created_at);
           posizioneCorrente = i;
         }
       }
@@ -1200,11 +1228,9 @@ function mostraLeaderboard(gioco, puntiCorrente) {
   }
 
   const top10 = lista.slice(0, 10);
-  const oggi = new Date().toLocaleDateString('it-IT');
 
   const righeHTML = top10.map((r, i) => {
     const isCorrente = profiloCorrente.partecipa && i === posizioneCorrente;
-    const dataStr = new Date(r.data).toLocaleDateString('it-IT');
     return `<div class="lb-riga ${isCorrente ? 'lb-corrente' : ''}">
       <div class="lb-pos">${i + 1}</div>
       <div class="lb-avatar"><img src="${r.avatar || 'img/avatar/teen_avatar_01.png'}" style="width:100%;height:100%;object-fit:cover;"></div>
@@ -1216,13 +1242,10 @@ function mostraLeaderboard(gioco, puntiCorrente) {
     </div>`;
   }).join('');
 
-  // Se corrente è fuori top 10
   let fuoriTopHTML = '';
   if (profiloCorrente.partecipa && posizioneCorrente >= 10) {
     fuoriTopHTML = `<div class="lb-fuori-top">… sei al <strong>${posizioneCorrente + 1}° posto</strong> su ${lista.length} giocatori</div>`;
   }
-
-  const titoloGioco = { 'quiz-sec': 'Quiz a Tempo' }[gioco] || gioco;
 
   document.getElementById('game-area').innerHTML = `
     <div class="leaderboard-wrap">
@@ -1644,7 +1667,7 @@ function gestisciProssimo() {
   renderGestisciScenario();
 }
 
-function mostraRiepilogoGestisci() {
+async function mostraRiepilogoGestisci() {
   const media = Math.round(Object.values(gestisciIndicatori).reduce((a,b) => a+b, 0) / 4);
 
   let esito, messaggio, emoji;
@@ -1712,7 +1735,7 @@ function mostraRiepilogoGestisci() {
 
     </div>`;
 
-  salvaInClassifica('gestisci', media);
+  salvaInClassifica('gestisci', media).catch(console.error);
   if (media >= 60) { setTimeout(esplodiCoriandoli, 300); setTimeout(suonaVittoria, 100); }
 }
 
@@ -2198,7 +2221,7 @@ function viaggioProssimo(nuovaPosizione) {
   renderViaggioGioco();
 }
 
-function mostraRiepilogoViaggio(completato, turniUsati, tappeIdx) {
+async function mostraRiepilogoViaggio(completato, turniUsati, tappeIdx) {
   const percorso = VIAGGIO_PERCORSI[viaggioPercorsoIdx];
   const tappeRaggiunte = tappeIdx + 1;
   const punteggio = Math.round((tappeRaggiunte / percorso.tappe.length) * 100);
@@ -2209,7 +2232,7 @@ function mostraRiepilogoViaggio(completato, turniUsati, tappeIdx) {
   else if (tappeRaggiunte >= 3) { emoji = '🚶'; titolo = 'Buon viaggio!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Continua a esplorare!`; }
   else { emoji = '🌊'; titolo = 'Il Delta ti aspetta ancora!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Riprova!`; }
 
-  salvaInClassifica('viaggio', punteggio);
+  salvaInClassifica('viaggio', punteggio).catch(console.error);
 
   document.getElementById('game-area').innerHTML = `
     <div class="viaggio-riepilogo">

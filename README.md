@@ -129,3 +129,7 @@ with open('immagine.jpg', 'rb') as f:
     b64 = base64.b64encode(f.read()).decode()
 # Usare come: `data:image/jpeg;base64,${b64}`
 ```
+
+
+## Password db supabase
+- Museodelta2026!

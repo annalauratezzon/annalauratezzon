@@ -97,7 +97,7 @@
 
   .home-title {
     font-family: 'Fraunces', serif;
-    font-size: 52px;
+    font-size: 80px;
     font-weight: 700;
     line-height: 1.1;
     color: var(--bianco-caldo);
@@ -175,22 +175,22 @@
   .age-card:hover::before { transform: scaleX(1); }
 
   .age-card-label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: .14em;
+    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--acquamarina);
     margin-bottom: 8px;
   }
   .age-card-title {
     font-family: 'Fraunces', serif;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--verde-scuro);
     margin-bottom: 6px;
   }
   .age-card-desc {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--testo-medio);
     font-weight: 300;
   }
@@ -249,11 +249,31 @@
   .select-body {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 28px;
-    padding: 40px 60px;
+    gap: 80px;
+    padding: 48px 60px;
     background: var(--bianco-caldo);
+  }
+  .select-intro {
+    text-align: center;
+  }
+  .select-intro-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+    margin-bottom: 8px;
+  }
+  .select-intro-sottotitolo {
+    font-size: 16px;
+    color: var(--grigio-medio);
+  }
+  .select-cards-grid {
+    display: flex;
+    gap: 28px;
+    align-items: stretch;
   }
 
   .game-card {
@@ -310,7 +330,7 @@
     line-height: 1.2;
   }
   .game-card-desc {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--testo-medio);
     font-weight: 300;
     line-height: 1.6;
@@ -1774,6 +1794,7 @@
     text-transform: uppercase;
     color: var(--acquamarina);
     margin-bottom: 10px;
+    margin-top: 60px;
   }
   .profilo-input {
     width: 100%;
@@ -1794,9 +1815,9 @@
 
   .profilo-avatar-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(8, 2fr);
     gap: 20px;
-    max-width: 500px;
+    max-width: 100%;
   }
   .profilo-avatar {
     aspect-ratio: 1;
@@ -1823,7 +1844,7 @@
     display: flex;
     align-items: revert-layer;
     justify-content: end;
-    margin-top: 32px;
+    margin-top: 60px;
     max-width: 100%;
     gap: 20px;
   }
@@ -2595,24 +2616,23 @@
   <div class="home-left">
     <div class="home-eyebrow">Museo del Delta del Po</div>
     <div class="home-title">Esplora<br>il Delta</div>
-    <div class="home-subtitle">Giochi interattivi<br>per scoprire la natura</div>
+    <div class="home-subtitle">Giochi interattivi<br>per scoprire la natura e l'ecosistema del Delta</div>
   </div>
   <div class="home-right">
-    <div class="home-prompt">Quanti anni hai?</div>
     <div class="age-card" onclick="goToSelect('primaria')">
       <img class="age-card-icon" src="img/ic_primaria.png" alt="Scuola Primaria">
       <div class="age-card-text">
-        <div class="age-card-label">Scuola Primaria</div>
-        <div class="age-card-title">6 – 10 anni</div>
-        <div class="age-card-desc">Quiz, abbinamenti e sequenze da scoprire</div>
+        <div class="age-card-label">Giochi adatti a bimbi di 6-10 anni</div>
+        <div class="age-card-title">Scuola primaria</div>
+        <div class="age-card-desc">Quiz a risposta multipla, abbinamenti e sequenze da scoprire</div>
       </div>
     </div>
     <div class="age-card" onclick="goToSelect('secondaria')">
       <img class="age-card-icon" src="img/ic_secondaria.png" alt="Scuola Secondaria">
       <div class="age-card-text">
-        <div class="age-card-label">Scuola Secondaria</div>
-        <div class="age-card-title">11 – 13 anni</div>
-        <div class="age-card-desc">Sfide più avanzate sul Delta del Po</div>
+        <div class="age-card-label">Giochi adatti a studenti di 11-14 anni</div>
+        <div class="age-card-title">Scuola secondaria</div>
+        <div class="age-card-desc">Quiz a tempo, strategie e sfide più avanzate sul Delta del Po</div>
       </div>
     </div>
   </div>
@@ -2629,7 +2649,7 @@
     <div class="profilo-section-label">Il tuo nickname</div>
     <input class="profilo-input" id="profilo-nome" type="text" placeholder="Scrivi il tuo nome…" maxlength="20" oninput="profiloAggiorna()">
 
-    <div class="profilo-section-label" style="margin-top:24px">Scegli il tuo avatar</div>
+    <div class="profilo-section-label">Scegli il tuo avatar</div>
     <div class="profilo-avatar-grid" id="profilo-avatar-grid">
       <div class="profilo-avatar" onclick="selezionaAvatar('img/avatar/teen_avatar_01.png', this)"><img src="img/avatar/teen_avatar_01.png" alt="Avatar 1"></div>
       <div class="profilo-avatar" onclick="selezionaAvatar('img/avatar/teen_avatar_02.png', this)"><img src="img/avatar/teen_avatar_02.png" alt="Avatar 2"></div>
@@ -2663,7 +2683,6 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       Indietro
     </button>
-    <div class="select-header-title">Scegli il gioco</div>
     <div class="select-header-badge" id="select-badge">Scuola Primaria · 6–10 anni</div>
     <div id="select-profilo-chip" class="profilo-chip" style="margin-left:0">
       <span class="profilo-chip-avatar" id="select-chip-avatar"></span>
@@ -2717,7 +2736,7 @@
   <div class="game-header">
     <button class="btn-back" onclick="backToSelect()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Giochi
+      Torna ai giochi
     </button>
     <div class="game-header-title" id="game-header-title">Quiz del Delta</div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
@@ -3781,6 +3800,7 @@ function mostraRiepilogoSec() {
 /* ══════════════════════════════════════
    PROFILO & LEADERBOARD
 ══════════════════════════════════════ */
+let currentFascia = 'primaria';
 let profiloCorrente = { nome: null, avatar: null, partecipa: false };
 
 const LEADERBOARD_KEY = 'delta_leaderboard_sec';
@@ -3795,7 +3815,10 @@ function goToSelect(fascia) {
   const giochi = fascia === 'primaria' ? GIOCHI_PRIMARIA : GIOCHI_SECONDARIA;
   const body = document.getElementById('select-body');
   if (body) {
-    body.innerHTML = giochi.map(g => {
+    const fasciaNome = currentFascia === 'primaria'
+      ? 'Scuola Primaria · 6–10 anni'
+      : 'Scuola Secondaria · 11–14 anni';
+      const cardsHTML = giochi.map(g => {
       const lbKey = g.leaderboard;
       const hasEntries = lbKey && (() => {
         try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]').filter(r => r.gioco === lbKey).length > 0; }
@@ -3816,6 +3839,12 @@ function goToSelect(fascia) {
           </div>
         </div>`;
     }).join('');
+    body.innerHTML = `
+      <div class="select-intro">
+        <div class="select-intro-titolo">I giochi del Delta</div>
+        <div class="select-intro-sottotitolo">${fasciaNome}</div>
+      </div>
+      <div class="select-cards-grid">${cardsHTML}</div>`;
   }
 
   // Aggiorna chip nella select screen
@@ -4895,7 +4924,10 @@ function backToSelect() {
   const giochi = currentFascia === 'primaria' ? GIOCHI_PRIMARIA : GIOCHI_SECONDARIA;
   const body = document.getElementById('select-body');
   if (body) {
-    body.innerHTML = giochi.map(g => {
+    const fasciaNome = currentFascia === 'primaria'
+      ? 'Scuola Primaria · 6–10 anni'
+      : 'Scuola Secondaria · 11–14 anni';
+      const cardsHTML = giochi.map(g => {
       const lbKey = g.leaderboard;
       const hasEntries = lbKey && (() => {
         try { return JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]').filter(r => r.gioco === lbKey).length > 0; }
@@ -4916,6 +4948,12 @@ function backToSelect() {
           </div>
         </div>`;
     }).join('');
+    body.innerHTML = `
+      <div class="select-intro">
+        <div class="select-intro-titolo">I giochi del Delta</div>
+        <div class="select-intro-sottotitolo">${fasciaNome}</div>
+      </div>
+      <div class="select-cards-grid">${cardsHTML}</div>`;
   }
   showScreen('screen-select');
 }

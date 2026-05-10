@@ -6,7 +6,9 @@
       "Bash(python3 -c ' *)",
       "Bash(sips -g pixelWidth -g pixelHeight /Users/alt-privato/Desktop/museo-delta/img/mappa_percorso_1.png)",
       "Bash(sed -n '1011,1050p' /Users/alt-privato/Desktop/museo-delta/index.html)",
-      "Bash(sed -n '2896,2930p' /Users/alt-privato/Desktop/museo-delta/index.html)"
+      "Bash(sed -n '2896,2930p' /Users/alt-privato/Desktop/museo-delta/index.html)",
+      "Bash(sed -n '2660,2680p' /Users/alt-privato/Desktop/museo-delta/index.html)",
+      "Bash(sed -n '201,260p' /Users/alt-privato/Desktop/museo-delta/index.html)"
     ]
   }
 }

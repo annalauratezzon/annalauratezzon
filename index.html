@@ -259,8 +259,6 @@
   .game-card {
     flex: 1;
     max-width: 320px;
-    height: 100%;
-    max-height: 380px;
     background: white;
     border: 1.5px solid var(--sabbia);
     border-radius: var(--radius-lg);
@@ -325,6 +323,24 @@
     letter-spacing: .04em;
     display: flex; align-items: center; gap: 6px;
     margin-top: 4px;
+  }
+
+  .game-card-img-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    height: auto;
+    background: none;
+    border-radius: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .game-card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   /* ══════════════════════════════════════
@@ -1805,10 +1821,11 @@
 
   .profilo-azioni {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: revert-layer;
+    justify-content: end;
     margin-top: 32px;
-    max-width: 420px;
+    max-width: 100%;
+    gap: 20px;
   }
 
   /* ══════════════════════════════════════
@@ -2634,7 +2651,7 @@
 
     <div class="profilo-azioni">
       <button class="btn-secondary" onclick="saltaClassifica()">Gioca senza classifica</button>
-      <button class="btn-primary" id="btn-entra" disabled onclick="entraInClassifica()">Entra in classifica →</button>
+      <button class="btn-primary" id="btn-entra" onclick="entraInClassifica()">Entra in classifica →</button>
     </div>
   </div>
 </div>
@@ -2893,6 +2910,27 @@ function lancia_coriandoli_abb() {
 }
 
 let toastTimer = null;
+function mostraToastMsg(testo) {
+  suonaSbagliato();
+  const old = document.querySelector('.abb-toast');
+  if (old) old.remove();
+  if (toastTimer) clearTimeout(toastTimer);
+  const el = document.createElement('div');
+  el.className = 'abb-toast toast-no';
+  el.innerHTML = `
+    <svg width="24" height="24" viewBox="0 0 24 24" style="flex-shrink:0" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="#C0513A" stroke-width="2"/>
+      <path d="M12 7v5" stroke="#C0513A" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="12" cy="16.5" r="1.2" fill="#C0513A"/>
+    </svg>
+    ${testo}`;
+  document.body.appendChild(el);
+  toastTimer = setTimeout(() => {
+    el.classList.add('toast-out');
+    setTimeout(() => el.remove(), 300);
+  }, 2500);
+}
+
 function mostraToast(tipo) {
   // rimuovi eventuale toast precedente
   const old = document.querySelector('.abb-toast');
@@ -3768,7 +3806,7 @@ function goToSelect(fascia) {
         : '';
       return `
         <div class="game-card" onclick="startGame('${g.tipo}')">
-          <div class="game-card-icon"><span class="material-symbols-outlined">${g.icon}</span></div>
+          ${g.img ? `<div class="game-card-img-wrap"><img src="${g.img}" alt="${g.titolo}"></div>` : `<div class="game-card-icon"><span class="material-symbols-outlined">${g.icon}</span></div>`}
           <div class="game-card-num">${g.num}</div>
           <div class="game-card-title">${g.titolo}</div>
           <div class="game-card-desc">${g.desc}</div>
@@ -3800,9 +3838,7 @@ function goToSelect(fascia) {
 }
 
 function profiloAggiorna() {
-  const nome = document.getElementById('profilo-nome')?.value.trim();
-  const btn = document.getElementById('btn-entra');
-  if (btn) btn.disabled = !nome;
+  // validation handled in entraInClassifica
 }
 
 function selezionaAvatar(avatar, el) {
@@ -3814,9 +3850,11 @@ function selezionaAvatar(avatar, el) {
 
 function entraInClassifica() {
   const nome = document.getElementById('profilo-nome')?.value.trim();
-  if (!nome) return;
+  const avatarScelto = profiloCorrente.avatar;
+  if (!nome && !avatarScelto) { mostraToastMsg('Per entrare in classifica scegli nickname e avatar'); return; }
+  if (!nome) { mostraToastMsg('Per entrare in classifica scegli un nickname'); return; }
+  if (!avatarScelto) { mostraToastMsg('Per entrare in classifica scegli un avatar'); return; }
   profiloCorrente.nome = nome;
-  profiloCorrente.avatar = profiloCorrente.avatar || '🦩';
   profiloCorrente.partecipa = true;
   profiloCorrente._saltato = false;
   suonaSeleziona();
@@ -4839,15 +4877,15 @@ function showScreen(id) {
 function goHome() { showScreen('screen-home'); }
 
 const GIOCHI_PRIMARIA = [
-  { tipo: 'quiz', icon: 'quiz', num: 'Gioco 1', titolo: 'Quiz del Delta', desc: 'Rispondi a 10 domande sul Delta del Po. Scegli la risposta giusta tra quattro opzioni.' },
-  { tipo: 'abbinamento', icon: 'join', num: 'Gioco 2', titolo: 'Metti al posto giusto', desc: 'Abbina ogni elemento alla categoria giusta: flora, fauna, attività umane o ambienti del Delta.' },
-  { tipo: "sequenze", icon: "reorder", num: "Gioco 3", titolo: "Rimetti in ordine", desc: "Scegli una storia del Delta e rimetti le tessere nell'ordine giusto." },
+  { tipo: 'quiz', icon: 'quiz', img: 'img/ic_giochi/ic_primaria_gioco_1.png', num: 'Gioco 1', titolo: 'Quiz del Delta', desc: 'Rispondi a 10 domande sul Delta del Po. Scegli la risposta giusta tra quattro opzioni.' },
+  { tipo: 'abbinamento', icon: 'join', img: 'img/ic_giochi/ic_primaria_gioco_2.png', num: 'Gioco 2', titolo: 'Metti al posto giusto', desc: 'Abbina ogni elemento alla categoria giusta: flora, fauna, attività umane o ambienti del Delta.' },
+  { tipo: "sequenze", icon: "reorder", img: "img/ic_giochi/ic_primaria_gioco_3.png", num: "Gioco 3", titolo: "Rimetti in ordine", desc: "Scegli una storia del Delta e rimetti le tessere nell'ordine giusto." },
 ];
 
 const GIOCHI_SECONDARIA = [
-  { tipo: 'quiz-sec', icon: 'timer', num: 'Gioco 1', titolo: 'Quiz a Tempo', desc: 'Rispondi a 10 domande in 20 secondi ciascuna. Più sei veloce, più punti guadagni!', leaderboard: 'quiz-sec' },
-  { tipo: 'gestisci', icon: 'eco', num: 'Gioco 2', titolo: 'Gestisci il Delta', desc: 'Prendi decisioni difficili e scopri come le tue scelte influenzano natura, economia e comunità.', leaderboard: 'gestisci' },
-  { tipo: 'viaggio', icon: 'explore', num: 'Gioco 3', titolo: 'In viaggio nel Delta', desc: 'Avanza lungo il Delta rispondendo alle domande. Più sei preciso, più lontano arrivi!', leaderboard: 'viaggio' },
+  { tipo: 'quiz-sec', icon: 'timer', img: 'img/ic_giochi/ic_secondaria_gioco_1.png', num: 'Gioco 1', titolo: 'Quiz a Tempo', desc: 'Rispondi a 10 domande in 20 secondi ciascuna. Più sei veloce, più punti guadagni!', leaderboard: 'quiz-sec' },
+  { tipo: 'gestisci', icon: 'eco', img: 'img/ic_giochi/ic_secondaria_gioco_2.png', num: 'Gioco 2', titolo: 'Gestisci il Delta', desc: 'Prendi decisioni difficili e scopri come le tue scelte influenzano natura, economia e comunità.', leaderboard: 'gestisci' },
+  { tipo: 'viaggio', icon: 'explore', img: 'img/ic_giochi/ic_secondaria_gioco_3.png', num: 'Gioco 3', titolo: 'In viaggio nel Delta', desc: 'Avanza lungo il Delta rispondendo alle domande. Più sei preciso, più lontano arrivi!', leaderboard: 'viaggio' },
 ];
 
 
@@ -4868,7 +4906,7 @@ function backToSelect() {
         : '';
       return `
         <div class="game-card" onclick="startGame('${g.tipo}')">
-          <div class="game-card-icon"><span class="material-symbols-outlined">${g.icon}</span></div>
+          ${g.img ? `<div class="game-card-img-wrap"><img src="${g.img}" alt="${g.titolo}"></div>` : `<div class="game-card-icon"><span class="material-symbols-outlined">${g.icon}</span></div>`}
           <div class="game-card-num">${g.num}</div>
           <div class="game-card-title">${g.titolo}</div>
           <div class="game-card-desc">${g.desc}</div>

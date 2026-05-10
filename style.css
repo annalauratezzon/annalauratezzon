@@ -1,4 +1,4 @@
-:root {
+  :root {
     --verde-scuro:   #2D5F5D;
     --acquamarina:   #5B9E9A;
     --acqua-chiara:  #A8CECE;
@@ -23,6 +23,7 @@
     color: var(--testo-scuro);
     user-select: none;
   }
+  button, input, select, textarea { font-family: inherit; }
 
   /* ── SCHERMATA ── */
   .screen {
@@ -75,7 +76,6 @@
   }
 
   .home-eyebrow {
-    font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 400;
     letter-spacing: .12em;
@@ -86,7 +86,7 @@
 
   .home-title {
     font-family: 'Fraunces', serif;
-    font-size: 52px;
+    font-size: 80px;
     font-weight: 700;
     line-height: 1.1;
     color: var(--bianco-caldo);
@@ -124,7 +124,7 @@
 
   .age-card {
     width: 100%;
-    max-width: 360px;
+    max-width: 600px;
     background: white;
     border: 1.5px solid var(--sabbia);
     border-radius: var(--radius-lg);
@@ -139,8 +139,8 @@
   }
   .age-card-text { flex: 1; }
   .age-card-icon {
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
     flex-shrink: 0;
     border-radius: 8px;
@@ -164,22 +164,22 @@
   .age-card:hover::before { transform: scaleX(1); }
 
   .age-card-label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: .14em;
+    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--acquamarina);
     margin-bottom: 8px;
   }
   .age-card-title {
     font-family: 'Fraunces', serif;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--verde-scuro);
     margin-bottom: 6px;
   }
   .age-card-desc {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--testo-medio);
     font-weight: 300;
   }
@@ -206,7 +206,6 @@
     border: none;
     border-radius: var(--radius-sm);
     color: var(--bianco-caldo);
-    font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 400;
     padding: 10px 20px;
@@ -229,25 +228,45 @@
     border-radius: 100px;
     padding: 6px 16px;
     font-size: 13px;
-    color: var(--sabbia);
+    color: white;
     letter-spacing: .05em;
   }
+
+  /* test test */
 
   .select-body {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 28px;
-    padding: 40px 60px;
+    gap: 80px;
+    padding: 48px 60px;
     background: var(--bianco-caldo);
+  }
+  .select-intro {
+    text-align: center;
+  }
+  .select-intro-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+    margin-bottom: 8px;
+  }
+  .select-intro-sottotitolo {
+    font-size: 16px;
+    color: var(--grigio-medio);
+  }
+  .select-cards-grid {
+    display: flex;
+    gap: 28px;
+    align-items: stretch;
   }
 
   .game-card {
     flex: 1;
     max-width: 320px;
-    height: 100%;
-    max-height: 380px;
     background: white;
     border: 1.5px solid var(--sabbia);
     border-radius: var(--radius-lg);
@@ -299,18 +318,222 @@
     line-height: 1.2;
   }
   .game-card-desc {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--testo-medio);
     font-weight: 300;
     line-height: 1.6;
     flex: 1;
   }
-  .game-card-cta {
-    font-size: 13px;
+  .card-cta {
+    font-size: 16px;
     font-weight: 500;
     color: var(--acquamarina);
     letter-spacing: .04em;
     display: flex; align-items: center; gap: 6px;
+    margin-top: 4px;
+  }
+
+  .game-card-img-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    height: auto;
+    background: none;
+    border-radius: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .game-card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ══════════════════════════════════════
+     ISTRUZIONI DIALOG
+  ══════════════════════════════════════ */
+  .istruzioni-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .istruzioni-overlay.aperta { display: flex; animation: fadeIn .2s ease; }
+  .istruzioni-dialog {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    max-width: 520px;
+    width: 90%;
+    box-shadow: 0 24px 64px rgba(0,0,0,.18);
+    animation: fadeUp .25s ease;
+    position: relative;
+  }
+  .istruzioni-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--grigio-medio);
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: background .15s;
+    line-height: 1;
+  }
+  .istruzioni-close:hover { background: var(--sabbia-chiara); }
+  .istruzioni-close svg { display: block; }
+  .istruzioni-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--verde-scuro);
+    margin-bottom: 6px;
+  }
+  .istruzioni-gioco {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--acquamarina);
+    margin-bottom: 24px;
+  }
+  .istruzioni-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .istruzioni-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .istruzioni-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--verde-scuro);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .istruzioni-testo {
+    font-size: 15px;
+    color: var(--testo-scuro);
+    line-height: 1.5;
+  }
+  .istruzioni-btn-wrap {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .btn-istruzioni {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255,255,255,.75);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color .15s;
+    white-space: nowrap;
+  }
+  .btn-istruzioni:hover { color: white; }
+  .btn-istruzioni svg { flex-shrink: 0; }
+
+  /* ══════════════════════════════════════
+     PERCORSO LISTA (wrapper + griglia)
+  ══════════════════════════════════════ */
+  .percorso-lista-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 250px;
+    gap: 24px;
+  }
+  .percorso-lista-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+    flex-shrink: 0;
+  }
+  .percorso-lista-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+    align-items: start;
+  }
+
+  /* ══════════════════════════════════════
+     PERCORSO CARD (lista percorsi viaggio)
+  ══════════════════════════════════════ */
+  .percorso-card {
+    background: white;
+    border: 1.5px solid var(--sabbia);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s, transform .15s;
+  }
+  .percorso-card:hover {
+    border-color: var(--acquamarina);
+    box-shadow: 0 8px 32px rgba(0,0,0,.10);
+    transform: translateY(-2px);
+  }
+  .percorso-card-img-wrap {
+    padding: 24px 24px 0 24px;
+    flex-shrink: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .percorso-card-img-wrap > img {
+    width: 100%;
+    aspect-ratio: 1;
+    display: block;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  .percorso-card-body {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .percorso-card-num {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--acquamarina);
+  }
+  .percorso-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+    line-height: 1.3;
+  }
+  .percorso-card-desc {
+    font-size: 16px;
+    color: var(--grigio-medio);
+    line-height: 1.5;
   }
 
   /* ══════════════════════════════════════
@@ -325,14 +548,27 @@
     background: var(--verde-scuro);
     display: flex;
     align-items: center;
-    padding: 0 40px;
-    gap: 24px;
-    flex-shrink: 0;
+    padding: 15px 40px;
+    gap: 32px;
+    justify-content: space-between;
+    height: auto;
   }
 
+  .game-header-titolo-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .game-header-label {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+  }
   .game-header-title {
     font-family: 'Fraunces', serif;
-    font-size: 18px;
+    font-size: 32px;
     font-weight: 500;
     color: var(--bianco-caldo);
   }
@@ -373,7 +609,6 @@
     color: var(--bianco-caldo);
     border: none;
     border-radius: var(--radius-md);
-    font-family: 'DM Sans', sans-serif;
     font-size: 16px;
     font-weight: 500;
     padding: 16px 36px;
@@ -388,7 +623,6 @@
     color: var(--verde-scuro);
     border: 1.5px solid var(--sabbia);
     border-radius: var(--radius-md);
-    font-family: 'DM Sans', sans-serif;
     font-size: 16px;
     font-weight: 400;
     padding: 15px 36px;
@@ -406,7 +640,7 @@
     padding: 6px 14px 6px 8px;
     margin-left: auto;
   }
-  .profilo-chip-avatar { font-size: 20px; line-height: 1; }
+  .profilo-chip-avatar { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; }
   .profilo-chip-nome {
     font-size: 14px;
     font-weight: 500;
@@ -422,7 +656,7 @@
     border-radius: 100px;
     padding: 6px 16px;
     font-size: 13px;
-    color: var(--sabbia);
+    color: white;
     letter-spacing: .05em;
     white-space: nowrap;
   }
@@ -506,7 +740,7 @@
   }
   .quiz-opzioni-foto.layout-2x2 .quiz-opzione-foto img,
   .quiz-opzioni-foto.layout-2x2 .quiz-foto-placeholder {
-    height: 160px;
+    height: 225px;
   }
   .quiz-opzione-foto {
     display: flex;
@@ -519,7 +753,6 @@
     text-align: center;
     transition: border-color .15s, box-shadow .15s, transform .1s;
     overflow: hidden;
-    font-family: 'DM Sans', sans-serif;
     padding: 0;
   }
   .quiz-opzione-foto:hover:not(:disabled) {
@@ -537,7 +770,7 @@
   }
   .quiz-foto-placeholder {
     width: 100%;
-    height: 120px;
+    height: 200px;
     background: var(--sabbia-chiara);
     display: flex;
     align-items: center;
@@ -642,7 +875,6 @@
     cursor: pointer;
     text-align: left;
     transition: border-color .15s, background .15s, transform .1s;
-    font-family: 'DM Sans', sans-serif;
   }
   .quiz-opzione:hover:not(:disabled) {
     border-color: var(--acquamarina);
@@ -729,7 +961,6 @@
   .btn-link-secondario {
     background: none;
     border: none;
-    font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: var(--testo-medio);
@@ -922,7 +1153,6 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    font-family: 'DM Sans', sans-serif;
     font-size: 18px;
     font-weight: 400;
     box-shadow: 0 8px 32px rgba(0,0,0,.15);
@@ -974,7 +1204,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 16px 28px 20px;
+    padding: 80px 28px 20px;
     gap: 80px;
     width: 100%;
   }
@@ -1055,6 +1285,8 @@
     align-items: center;
     gap: 10px;
     transition: background .2s;
+    padding: 10px;
+    background-color: white;
   }
   .abbinamento-colonna.highlight .abbinamento-slot { border-color: var(--acquamarina); background: rgba(91,158,154,.04); }
   .abbinamento-colonna.completa .abbinamento-slot { border-color: #3A8C5C; border-style: solid; background: #F4FBF7; }
@@ -1662,11 +1894,11 @@
     text-transform: uppercase;
     color: var(--acquamarina);
     margin-bottom: 10px;
+    margin-top: 60px;
   }
   .profilo-input {
     width: 100%;
     max-width: 420px;
-    font-family: 'DM Sans', sans-serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--testo-scuro);
@@ -1682,34 +1914,38 @@
 
   .profilo-avatar-grid {
     display: grid;
-    grid-template-columns: repeat(5, 64px);
-    gap: 12px;
+    grid-template-columns: repeat(8, 2fr);
+    gap: 20px;
+    max-width: 100%;
   }
   .profilo-avatar {
-    width: 64px; height: 64px;
+    aspect-ratio: 1;
     border-radius: var(--radius-md);
-    border: 2px solid var(--sabbia);
-    background: white;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px;
+    border: 3px solid transparent;
+    overflow: hidden;
     cursor: pointer;
-    transition: border-color .15s, background .15s, transform .1s;
+    transition: border-color .15s, transform .1s, box-shadow .15s;
     user-select: none;
   }
-  .profilo-avatar:hover { border-color: var(--acquamarina); background: rgba(91,158,154,.06); }
+  .profilo-avatar img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .profilo-avatar:hover { border-color: var(--acquamarina); box-shadow: 0 2px 12px rgba(91,158,154,.25); }
   .profilo-avatar:active { transform: scale(.94); }
   .profilo-avatar.selezionato {
     border-color: var(--verde-scuro);
-    background: var(--verde-scuro);
-    font-size: 30px;
+    box-shadow: 0 0 0 2px var(--verde-scuro);
   }
 
   .profilo-azioni {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 32px;
-    max-width: 420px;
+    align-items: revert-layer;
+    justify-content: end;
+    margin-top: 60px;
+    max-width: 100%;
+    gap: 20px;
   }
 
   /* ══════════════════════════════════════
@@ -1772,7 +2008,7 @@
   .lb-riga:nth-child(1) .lb-pos { color: #C9A227; }
   .lb-riga:nth-child(2) .lb-pos { color: #9E9E9E; }
   .lb-riga:nth-child(3) .lb-pos { color: #A0522D; }
-  .lb-avatar { font-size: 28px; flex-shrink: 0; }
+  .lb-avatar { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
   .lb-nome {
     flex: 1;
     font-size: 17px;
@@ -1868,7 +2104,7 @@
     width: 100%;
     max-width: 600px;
   }
-  .velocita-icon { font-size: 32px; flex-shrink: 0; }
+  .velocita-icon { width: 40px; height: 40px; flex-shrink: 0; object-fit: contain; }
   .velocita-slider-track {
     flex: 1;
     height: 6px;
@@ -1920,7 +2156,7 @@
     align-items: center;
     gap: 4px;
   }
-  .velocita-livello-emoji { font-size: 48px; line-height: 1; animation: emojiBounce .5s ease; }
+  .velocita-livello-emoji { width: 120px; height: 120px; animation: emojiBounce .5s ease; object-fit: contain; }
   .velocita-livello-label {
     font-family: 'Fraunces', serif;
     font-size: 28px;
@@ -2241,9 +2477,6 @@
   }
   .gestisci-badge-icon { font-size: 20px; }
 
-
-
-
   /* ══════════════════════════════════════
      GIOCO SEC 3 — IN VIAGGIO NEL DELTA
   ══════════════════════════════════════ */
@@ -2257,7 +2490,7 @@
   /* Colonna sinistra: mappa */
   .viaggio-mappa-col {
     flex-shrink: 0;
-    width: 420px;
+    width: 50%;
     position: relative;
     background: #1a3a5c;
   }
@@ -2319,229 +2552,13 @@
     0%, 100% { transform: translate(-50%, -100%) scale(1); }
     50% { transform: translate(-50%, -100%) scale(1.08); }
   }
-
-  /* Turni rimasti */
-  .viaggio-turni-badge {
+  .viaggio-percorso-svg {
     position: absolute;
-    top: 12px; right: 12px;
-    background: rgba(45,95,93,.85);
-    color: white;
-    border-radius: var(--radius-md);
-    padding: 8px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    z-index: 15;
-    backdrop-filter: blur(4px);
-  }
-  .viaggio-turni-num {
-    font-family: 'Fraunces', serif;
-    font-size: 24px;
-    font-weight: 700;
-    display: block;
-    text-align: center;
-    line-height: 1;
-  }
-
-  /* Colonna destra: domanda */
-  .viaggio-domanda-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 32px 48px;
-    gap: 20px;
-    overflow-y: auto;
-  }
-  .viaggio-tappa-label {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--acquamarina);
-  }
-  .viaggio-tappa-nome {
-    font-family: 'Fraunces', serif;
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--testo-medio);
-    margin-top: -12px;
-  }
-  .viaggio-domanda {
-    font-family: 'Fraunces', serif;
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--verde-scuro);
-    line-height: 1.3;
-  }
-  .viaggio-opzioni {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .viaggio-opzione {
-    background: white;
-    border: 1.5px solid var(--sabbia);
-    border-radius: var(--radius-md);
-    padding: 14px 20px;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--testo-scuro);
-    text-align: left;
-    cursor: pointer;
-    transition: border-color .15s, background .15s;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .viaggio-opzione:hover { border-color: var(--acquamarina); background: rgba(91,158,154,.05); }
-  .viaggio-opzione.corretta { border-color: #3A8C5C; background: #EDF7F1; }
-  .viaggio-opzione.sbagliata { border-color: #C0513A; background: #FDF0ED; }
-  .viaggio-opzione.disabilitata { opacity: .4; pointer-events: none; }
-  .viaggio-lettera {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--sabbia-chiara);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; color: var(--acquamarina);
-    flex-shrink: 0;
-  }
-  .viaggio-opzione.corretta .viaggio-lettera { background: #3A8C5C; color: white; }
-  .viaggio-opzione.sbagliata .viaggio-lettera { background: #C0513A; color: white; }
-
-  /* Feedback viaggio */
-  .viaggio-feedback {
-    border-radius: var(--radius-md);
-    padding: 14px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    animation: fadeUp .3s ease;
-  }
-  .viaggio-feedback.pos { background: #EDF7F1; border: 1px solid #B6DEC8; }
-  .viaggio-feedback.neg { background: #FDF0ED; border: 1px solid #EAC0B4; }
-  .viaggio-feedback-testo {
-    font-size: 15px;
-    color: var(--testo-scuro);
-    line-height: 1.4;
-    flex: 1;
-  }
-  .viaggio-feedback-testo strong { display: block; margin-bottom: 2px; font-size: 16px; }
-
-  .viaggio-azioni {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .viaggio-aiuto-btn {
-    font-size: 13px;
-    color: var(--acquamarina);
-    background: none;
-    border: 1px solid var(--acquamarina);
-    border-radius: 100px;
-    padding: 6px 16px;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .viaggio-aiuto-btn:hover { background: rgba(91,158,154,.08); }
-  .viaggio-aiuto-btn:disabled { opacity: .4; pointer-events: none; }
-  .viaggio-suggerimento {
-    font-size: 16px;
-    color: var(--acquamarina);
-    font-style: italic;
-    background: rgba(91,158,154,.08);
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    animation: fadeUp .2s ease;
-  }
-
-  /* Riepilogo viaggio */
-  .viaggio-riepilogo {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 32px 80px;
-    animation: fadeUp .4s ease;
-    text-align: center;
-  }
-
-
-
-  /* ══════════════════════════════════════
-     GIOCO SEC 3 — IN VIAGGIO NEL DELTA
-  ══════════════════════════════════════ */
-  .viaggio-outer {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-  }
-
-  /* Colonna sinistra: mappa */
-  .viaggio-mappa-col {
-    flex-shrink: 0;
-    width: 420px;
-    position: relative;
-    background: #1a3a5c;
-  }
-  .viaggio-mappa-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .viaggio-tappa {
-    position: absolute;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.88);
-    border: 3px solid #2D5F5D;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Fraunces', serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: #2D5F5D;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 3px 10px rgba(0,0,0,.3);
-    z-index: 10;
-    transition: background .3s, border-color .3s;
-  }
-  .viaggio-tappa.completata {
-    background: #2D5F5D;
-    color: white;
-    border-color: white;
-  }
-  .viaggio-tappa.corrente {
-    background: white;
-    border-color: #E86C3A;
-    border-width: 3px;
-    box-shadow: 0 0 0 4px rgba(232,108,58,.25), 0 3px 10px rgba(0,0,0,.3);
-  }
-  .viaggio-tappa.arrivo {
-    background: #D4B896;
-    border-color: #2D5F5D;
-    font-size: 20px;
-  }
-  .viaggio-tappa.arrivo.completata {
-    background: #C9A227;
-    border-color: white;
-  }
-  .viaggio-segnalino {
-    position: absolute;
-    transform: translate(-50%, -100%);
-    z-index: 20;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,.45));
-    transition: top .6s cubic-bezier(.4,0,.2,1), left .6s cubic-bezier(.4,0,.2,1);
-    animation: viaggio-pulse 2s ease-in-out infinite;
-  }
-  @keyframes viaggio-pulse {
-    0%, 100% { transform: translate(-50%, -100%) scale(1); }
-    50% { transform: translate(-50%, -100%) scale(1.08); }
+    z-index: 5;
+    overflow: visible;
   }
 
   /* Turni rimasti */
@@ -2573,15 +2590,15 @@
     flex-direction: column;
     justify-content: center;
     padding: 32px 48px;
-    gap: 80px;
+    gap: 40px;
     overflow-y: auto;
   }
   .viaggio-tappa-label {
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--acquamarina);
+    padding-bottom: 16px;
   }
   .viaggio-tappa-nome {
     font-family: 'Fraunces', serif;

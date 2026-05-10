@@ -618,7 +618,7 @@
   }
   .quiz-opzioni-foto.layout-2x2 .quiz-opzione-foto img,
   .quiz-opzioni-foto.layout-2x2 .quiz-foto-placeholder {
-    height: 160px;
+    height: 225px;
   }
   .quiz-opzione-foto {
     display: flex;
@@ -649,7 +649,7 @@
   }
   .quiz-foto-placeholder {
     width: 100%;
-    height: 120px;
+    height: 200px;
     background: var(--sabbia-chiara);
     display: flex;
     align-items: center;
@@ -1984,7 +1984,7 @@
     width: 100%;
     max-width: 600px;
   }
-  .velocita-icon { font-size: 32px; flex-shrink: 0; }
+  .velocita-icon { width: 40px; height: 40px; flex-shrink: 0; object-fit: contain; }
   .velocita-slider-track {
     flex: 1;
     height: 6px;
@@ -2036,7 +2036,7 @@
     align-items: center;
     gap: 4px;
   }
-  .velocita-livello-emoji { font-size: 48px; line-height: 1; animation: emojiBounce .5s ease; }
+  .velocita-livello-emoji { width: 120px; height: 120px; animation: emojiBounce .5s ease; object-fit: contain; }
   .velocita-livello-label {
     font-family: 'Fraunces', serif;
     font-size: 28px;
@@ -2622,7 +2622,7 @@
 <div id="screen-profilo" class="screen">
   <div class="profilo-left">
     <div class="home-eyebrow">Scuola Secondaria · 11–14 anni</div>
-    <div class="home-title">Chi<br>sei?</div>
+    <div class="home-title">Vuoi giocare<br>in modalità classifica?</div>
     <div class="home-subtitle">Scegli il tuo avatar e<br>entra in classifica.</div>
   </div>
   <div class="profilo-right">
@@ -2688,7 +2688,7 @@
       <div class="velocita-titolo">Quanto vuoi andare veloce?</div>
       <div class="velocita-sottotitolo">Imposta la velocità del gioco.</div>
       <div class="velocita-slider-wrap">
-        <span class="velocita-icon">😌</span>
+        <img class="velocita-icon" src="img/ic_velocity_chill.png" alt="Chill">
         <div class="velocita-slider-track" id="vel-track" onclick="velClickTrack(event)">
           <div class="velocita-slider-fill" id="vel-fill"></div>
           <div class="velocita-slider-thumb" id="vel-thumb" onpointerdown="velStartDrag(event)"></div>
@@ -2699,10 +2699,10 @@
             <div class="velocita-tick"></div>
           </div>
         </div>
-        <span class="velocita-icon">🚀</span>
+        <img class="velocita-icon" src="img/ic_velocity_turbo.png" alt="Turbo">
       </div>
       <div class="velocita-livello-wrap">
-        <div class="velocita-livello-emoji" id="vel-emoji">🎮</div>
+        <img class="velocita-livello-emoji" id="vel-emoji" src="img/ic_velocity_standard.png" alt="Standard">
         <div class="velocita-livello-label" id="vel-label">Standard</div>
         <div class="velocita-livello-copy" id="vel-tempo">Il ritmo equilibrato</div>
         <div class="velocita-livello-detail" id="vel-detail">~20 sec · fino a 150 punti a domanda</div>
@@ -2737,22 +2737,22 @@
    GIOCO 2 — ABBINAMENTO
 ══════════════════════════════════════ */
 const ABBINAMENTO_DATI = [
-  { testo: 'Canna palustre',          categoria: 'Flora',               img: 'img/canna-palustre.png' },
-  { testo: 'Ninfea',                  categoria: 'Flora',               img: 'img/ninfea.png' },
-  { testo: 'Tamerice',                categoria: 'Flora',               img: 'img/tamerice.png' },
-  { testo: 'Salicornia',              categoria: 'Flora',               img: 'img/salicornia.png' },
-  { testo: 'Fenicottero',             categoria: 'Fauna',               img: 'img/fenicottero.png' },
-  { testo: 'Airone',                  categoria: 'Fauna',               img: 'img/airone.png' },
-  { testo: 'Cefalo',                  categoria: 'Fauna',               img: 'img/cefalo.png' },
-  { testo: 'Volpoca',                 categoria: 'Fauna',               img: 'img/volpoca.png' },
-  { testo: 'Pesca',                   categoria: "Attività dell'uomo",  img: 'img/pesca.png' },
-  { testo: 'Allevamento delle cozze', categoria: "Attività dell'uomo",  img: 'img/allevamento-cozze.png' },
-  { testo: 'Navigazione in barca',    categoria: "Attività dell'uomo",  img: 'img/navigazione.png' },
-  { testo: 'Coltivazione del riso',   categoria: "Attività dell'uomo",  img: 'img/coltivazione-riso.png' },
-  { testo: 'Laguna',                  categoria: 'Ambienti del Delta',  img: 'img/laguna-a.png' },
-  { testo: 'Valle da pesca',          categoria: 'Ambienti del Delta',  img: 'img/valle_da_pesca_a.png' },
-  { testo: 'Canneto',                 categoria: 'Ambienti del Delta',  img: 'img/canneto.png' },
-  { testo: 'Barena',                  categoria: 'Ambienti del Delta',  img: 'img/barena.png' },
+  { testo: 'Canna palustre',          categoria: 'Flora',               img: 'img/primaria_2/canna-palustre.png' },
+  { testo: 'Ninfea',                  categoria: 'Flora',               img: 'img/primaria_2/ninfea.png' },
+  { testo: 'Tamerice',                categoria: 'Flora',               img: 'img/primaria_2/tamerice.png' },
+  { testo: 'Salicornia',              categoria: 'Flora',               img: 'img/primaria_2/salicornia.png' },
+  { testo: 'Fenicottero',             categoria: 'Fauna',               img: 'img/primaria_2/fenicottero.png' },
+  { testo: 'Airone',                  categoria: 'Fauna',               img: 'img/primaria_2/airone.png' },
+  { testo: 'Cefalo',                  categoria: 'Fauna',               img: 'img/primaria_2/cefalo.png' },
+  { testo: 'Volpoca',                 categoria: 'Fauna',               img: 'img/primaria_2/volpoca.png' },
+  { testo: 'Pesca',                   categoria: "Attività dell'uomo",  img: 'img/primaria_2/pesca.png' },
+  { testo: 'Allevamento delle cozze', categoria: "Attività dell'uomo",  img: 'img/primaria_2/allevamento-cozze.png' },
+  { testo: 'Navigazione in barca',    categoria: "Attività dell'uomo",  img: 'img/primaria_2/navigazione.png' },
+  { testo: 'Coltivazione del riso',   categoria: "Attività dell'uomo",  img: 'img/primaria_2/coltivazione-riso.png' },
+  { testo: 'Laguna',                  categoria: 'Ambienti del Delta',  img: 'img/primaria_2/laguna-a.png' },
+  { testo: 'Valle da pesca',          categoria: 'Ambienti del Delta',  img: 'img/primaria_2/valle_da_pesca_a.png' },
+  { testo: 'Canneto',                 categoria: 'Ambienti del Delta',  img: 'img/primaria_2/canneto.png' },
+  { testo: 'Barena',                  categoria: 'Ambienti del Delta',  img: 'img/primaria_2/barena.png' },
 ];
 
 const ABBINAMENTO_CATEGORIE = ["Flora", "Fauna", "Attività dell'uomo", "Ambienti del Delta"];
@@ -3972,10 +3972,10 @@ function mostraLeaderboard(gioco, puntiCorrente) {
    SCHERMATA VELOCITÀ
 ══════════════════════════════════════ */
 const VEL_LIVELLI = [
-  { step: 0, emoji: '😌', label: 'Chill', desc: 'Gioca senza fretta', mult: 1.5, scoreMult: 0.75 },
-  { step: 1, emoji: '🎮', label: 'Standard', desc: 'Il ritmo equilibrato', mult: 1.0, scoreMult: 1.0 },
-  { step: 2, emoji: '⚡', label: 'Sprint', desc: 'Più ritmo, più adrenalina', mult: 0.7, scoreMult: 1.3 },
-  { step: 3, emoji: '🚀', label: 'Turbo', desc: 'Massima velocità', mult: 0.5, scoreMult: 1.75 },
+  { step: 0, emoji: 'img/ic_velocity_chill.png', label: 'Chill', desc: 'Gioca senza fretta', mult: 1.5, scoreMult: 0.75 },
+  { step: 1, emoji: 'img/ic_velocity_standard.png', label: 'Standard', desc: 'Il ritmo equilibrato', mult: 1.0, scoreMult: 1.0 },
+  { step: 2, emoji: 'img/ic_velocity_flash.png', label: 'Sprint', desc: 'Più ritmo, più adrenalina', mult: 0.7, scoreMult: 1.3 },
+  { step: 3, emoji: 'img/ic_velocity_turbo.png', label: 'Turbo', desc: 'Massima velocità', mult: 0.5, scoreMult: 1.75 },
 ];
 let velStep = 1; // default: Camminatore
 let velDragging = false;
@@ -3999,7 +3999,7 @@ function velAggiorna() {
 
   if (fill) fill.style.width = (pct * 100) + '%';
   if (thumb) thumb.style.left = (pct * 100) + '%';
-  if (emoji) { emoji.textContent = lv.emoji; emoji.style.animation = 'none'; requestAnimationFrame(() => emoji.style.animation = ''); }
+  if (emoji) { emoji.src = lv.emoji; emoji.style.animation = 'none'; requestAnimationFrame(() => emoji.style.animation = ''); }
   if (label) label.textContent = lv.label;
   if (tempo) tempo.textContent = lv.desc || '';
   const detail = document.getElementById('vel-detail');
@@ -4436,7 +4436,7 @@ function buildRadarChart(ind) {
 /* ══════════════════════════════════════
    GIOCO SEC 3 — IN VIAGGIO NEL DELTA
 ══════════════════════════════════════ */
-const VIAGGIO_MAPPA_B64 = "img/mappa_1.png";
+const VIAGGIO_MAPPA_B64 = "img/mappa_percorso_2.png";
 
 const VIAGGIO_PERCORSI = [
   {
@@ -4471,7 +4471,7 @@ const VIAGGIO_PERCORSI = [
     nome: "La rotta degli uccelli migratori",
     desc: "Naviga tra lagune, valli e canneti alla scoperta della fauna del Delta.",
     icon: "rowing",
-    mappa: "img/mappa_1.png",
+    mappa: "img/mappa_percorso_2.png",
     tappe: [
       { nome: "Porto",                  coords: [21.93, 20.33] },
       { nome: "Canale",                 coords: [58.21, 35.48] },
@@ -4502,7 +4502,7 @@ const VIAGGIO_PERCORSI = [
     nome: "La sfida della pesca sostenibile",
     desc: "Osserva flora, fauna e habitat naturali lungo i sentieri del Parco.",
     icon: "nature",
-    mappa: "img/mappa_2.png",
+    mappa: "img/mappa_percorso_3.png",
     tappe: [
       { nome: "Tappa 1", coords: [48.6, 85.0] },
       { nome: "Tappa 2", coords: [28.5, 66.1] },
@@ -4978,15 +4978,16 @@ const QUIZ_DOMANDE = [
     domanda: "Quale grande fiume forma il Delta del Po?",
     opzioni: ["Po", "Adige", "Reno", "Brenta"],
     corretta: 0,
-    foto: "img/1_01_fiume_po.png",
+    foto: "img/primaria_1/1_01_fiume_po.png",
     fotoCaption: "Il Delta del Po visto dall'alto"
   },
   {
     domanda: "Quale uccello rosa si può vedere nelle zone umide del Delta?",
     opzioni: ["Airone rosso", "Fenicottero", "Spatola", "Gabbiano roseo"],
-    opzioniFoto: [null, null, null, null],
+    opzioniFoto: ["img/primaria_1/2-Airone-rosso.png","img/primaria_1/2-Fenicottero.png","img/primaria_1/2-Spatola.png","img/primaria_1/2-Gabbiano-rosa.png"],
+    layoutFoto: '2x2',
     corretta: 1,
-    foto: "img/1_02_fenicottero.png",
+    foto: "img/primaria_1/1_02_fenicottero.png",
     fotoCaption: "Il fenicottero rosa"
   },
   {
@@ -4998,24 +4999,26 @@ const QUIZ_DOMANDE = [
       "Laghetti naturali circondati da canneti"
     ],
     corretta: 0,
-    foto: "img/1_03_valli_da_pesca.png",
+    foto: "img/primaria_1/1_03_valli_da_pesca.png",
     fotoCaption: "Una valle da pesca nel Delta"
   },
   {
     domanda: "Quale pianta cresce spesso vicino all'acqua nel Delta?",
     opzioni: ["Salicornia", "Canna palustre", "Tamerice", "Giunco marino"],
-    opzioniFoto: [null, null, null, null],
+    opzioniFoto: ["img/primaria_1/4-Salicomia.png","img/primaria_1/4-Canna-palustre-OK.png","img/primaria_1/4-Tamerice.png","img/primaria_1/4-Giunco-marino.png"],
+    layoutFoto: '2x2',
     corretta: 1,
-    foto: "img/1_04_canna_palustre.png",
+    foto: "img/primaria_1/1_04_canna_palustre.png",
     fotoCaption: "La canna palustre"
   },
   {
     domanda: "Quale animale vive nelle acque del Delta?",
-    opzioni: ["Luccio", "Anguilla", "Cefalo", "Tinca"],
-    opzioniFoto: [null, null, null, null],
-    corretta: 1,
-    foto: "img/1_05_anguilla.png",
-    fotoCaption: "L'anguilla europea"
+    opzioni: ["Luccio", "Polpo", "Spigola", "Tinca"],
+    opzioniFoto: ["img/primaria_1/5-Luccio.png","img/primaria_1/5-Polpo.png","img/primaria_1/5-Spigola-OK.png","img/primaria_1/5-Tinca.png"],
+    layoutFoto: '2x2',
+    corretta: 2,
+    foto: "img/primaria_1/1_05_spigola.png",
+    fotoCaption: "La spigola"
   },
   {
     domanda: "Il Delta del Po è importante perché ospita molti…",
@@ -5026,30 +5029,30 @@ const QUIZ_DOMANDE = [
       "Laghi profondi"
     ],
     corretta: 0,
-    foto: "img/1_06_biodiversita.png",
+    foto: "img/primaria_1/1_06_biodiversita.png",
     fotoCaption: "La biodiversità del Delta del Po"
   },
   {
     domanda: "Quale attività tradizionale si pratica nel Delta?",
     opzioni: [
-      "Piantagione di mele",
+      "Coltivazione della vite",
       "Pesca nelle lagune e nei canali",
       "Allevamento delle pecore",
       "Taglio del legname nei pioppeti"
     ],
-    opzioniFoto: [null, null, null, null],
+    opzioniFoto: ["img/primaria_1/7-Vigneto-NO-MELETO.png","img/primaria_1/7-Pesca-OK.png","img/primaria_1/7-Pecore.png","img/primaria_1/7-Pioppeto.png"],
     layoutFoto: '2x2',
     corretta: 1,
-    foto: "img/1_07_pesca.png",
+    foto: "img/primaria_1/1_07_pesca.png",
     fotoCaption: "La pesca tradizionale nel Delta"
   },
   {
     domanda: "Quale mezzo si usa spesso per muoversi nei canali?",
-    opzioni: ["Barca a fondo piatto", "Bicicletta d'acqua", "Piccolo traghetto", "Slitta da laguna"],
-    opzioniFoto: [null, null, null, null],
+    opzioni: ["Barca a fondo piatto", "Bicicletta d'acqua", "Piccolo traghetto", "Moto d'acqua"],
+    opzioniFoto: ["img/primaria_1/8-Barca-OK.png","img/primaria_1/8-Bicicletta-acqua.png","img/primaria_1/8-Traghetto.png","img/primaria_1/8-Moto-acqua.png"],
     layoutFoto: '2x2',
     corretta: 0,
-    foto: "img/1_08_barca_fondo_piatto.png",
+    foto: "img/primaria_1/1_08_barca_fondo_piatto.png",
     fotoCaption: "Una barca a fondo piatto"
   },
   {
@@ -5060,18 +5063,18 @@ const QUIZ_DOMANDE = [
       "Nei boschi di pioppeti",
       "Sulle scogliere"
     ],
-    opzioniFoto: [null, null, null, null],
+    opzioniFoto: ["img/primaria_1/9-Campanile.png","img/primaria_1/9-Laguna-OK.png","img/primaria_1/9-Bosco-pioppi.png","img/primaria_1/9-Scogliera.png"],
     layoutFoto: '2x2',
     corretta: 1,
-    foto: "img/1_09_canneti.png",
+    foto: "img/primaria_1/1_09_canneti.png",
     fotoCaption: "Uccelli tra canneti e zone umide"
   },
   {
     domanda: "Quale mollusco viene allevato nelle lagune del Delta?",
-    opzioni: ["Cozza", "Patella", "Tellina", "Chiocciola di mare"],
-    opzioniFoto: [null, null, null, null],
+    opzioni: ["Ostrica", "Patella", "Tellina", "Chiocciola di mare"],
+    opzioniFoto: ["img/primaria_1/10-Ostrica-OK.png","img/primaria_1/10-Patella.png","img/primaria_1/10-Tellina.png","img/primaria_1/10-Chiocciola.png"],
     corretta: 0,
-    foto: "img/1_10_cozza.png",
+    foto: "img/primaria_1/1_10_cozza.png",
     fotoCaption: "Le cozze allevate nelle lagune"
   }
 ];

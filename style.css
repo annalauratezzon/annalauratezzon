@@ -1172,6 +1172,11 @@
     color: #8B3A27;
     border: 1px solid #EAC0B4;
   }
+  .abb-toast.toast-info {
+    background: #EAF4F4;
+    color: #2D5F5D;
+    border: 1px solid #A8CECE;
+  }
   .abb-toast.toast-out { animation: toastOut .3s ease forwards; }
 
   @keyframes toastIn {

@@ -47,6 +47,8 @@ const ABBINAMENTO_CATEGORIE = ["Flora", "Fauna", "Attività dell'uomo", "Ambient
 let abbTesseraSelezionata = null;
 let abbPiazzate = 0;
 let abbErrori = 0;
+let abbHintCount = 0;
+const ABB_HINT = "Ora tocca il gruppo corretto dove spostare la foto";
 let abbTessere = [];
 
 function shuffleArray(arr) {
@@ -56,6 +58,18 @@ function shuffleArray(arr) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function setHeaderBack(label, fn) {
+  const btn = document.querySelector('#screen-game .btn-back');
+  if (!btn) return;
+  btn.onclick = fn;
+  for (const node of btn.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+      node.textContent = `\n      ${label}\n    `;
+      break;
+    }
+  }
 }
 
 function placeholderFoto(size, cls) {
@@ -81,6 +95,7 @@ function initAbbinamento() {
   abbTesseraSelezionata = null;
   abbPiazzate = 0;
   abbErrori = 0;
+  abbHintCount = 0;
   abbTessere = shuffleArray(ABBINAMENTO_DATI.map((d, i) => ({ ...d, id: i, usata: false })));
   renderAbbinamento();
 }
@@ -137,6 +152,11 @@ function selezionaTessera(id) {
   document.querySelectorAll('.abbinamento-colonna').forEach(c => c.classList.add('highlight'));
 
   document.getElementById('abb-stato').textContent = 'Ora scegli la categoria giusta →';
+
+  if (abbHintCount < 3) {
+    mostraToast('info', ABB_HINT, true);
+    abbHintCount++;
+  }
 }
 
 function selezionaColonnaIdx(idx) {
@@ -215,23 +235,24 @@ function lancia_coriandoli_abb() {
 }
 
 let toastTimer = null;
-function mostraToast(tipo, testoCustom) {
+function mostraToast(tipo, testoCustom, silenzioso = false) {
   const old = document.querySelector('.abb-toast');
   if (old) old.remove();
   if (toastTimer) clearTimeout(toastTimer);
 
-  if (testoCustom) suonaSbagliato();
+  if (testoCustom && !silenzioso) suonaSbagliato();
 
   const el = document.createElement('div');
-  el.className = 'abb-toast ' + (tipo === 'ok' ? 'toast-ok' : 'toast-no');
+  el.className = 'abb-toast ' + (tipo === 'ok' ? 'toast-ok' : tipo === 'info' ? 'toast-info' : 'toast-no');
   const durata = testoCustom ? 2500 : 1500;
 
   if (testoCustom) {
+    const iconColor = tipo === 'info' ? 'var(--acquamarina)' : '#C0513A';
     el.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" style="flex-shrink:0" fill="none">
-        <circle cx="12" cy="12" r="10" stroke="#C0513A" stroke-width="2"/>
-        <path d="M12 7v5" stroke="#C0513A" stroke-width="2.2" stroke-linecap="round"/>
-        <circle cx="12" cy="16.5" r="1.2" fill="#C0513A"/>
+        <circle cx="12" cy="12" r="10" stroke="${iconColor}" stroke-width="2"/>
+        <path d="M12 7v5" stroke="${iconColor}" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="12" cy="16.5" r="1.2" fill="${iconColor}"/>
       </svg>
       ${testoCustom}`;
   } else if (tipo === 'ok') {
@@ -349,13 +370,14 @@ const SEQUENZE = [
   },
   {
     titolo: "Il viaggio dell'anguilla",
-    copertina: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400&h=400&fit=crop",
+    copertina: "img/primaria_3/F1.png",
     tessere: [
       "L'anguilla vive nelle acque del Delta",
       "Cresce tra canali e lagune",
       "Nuota verso il mare",
       "Inizia un lungo viaggio nell'oceano"
-    ]
+    ],
+    foto: ["img/primaria_3/F1.png", "img/primaria_3/F2.png", "img/primaria_3/F3.png", "img/primaria_3/F4.png"]
   },
   {
     titolo: "Costruire un nido",
@@ -369,22 +391,23 @@ const SEQUENZE = [
   },
   {
     titolo: "Una gita in barca nel Delta",
-    copertina: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=400&fit=crop",
+    copertina: "img/primaria_3/H1.png",
     tessere: [
       "I bambini salgono sulla barca",
       "La barca entra nei canali",
       "Si osservano canneti e uccelli",
       "La barca ritorna al pontile"
-    ]
+    ],
+    foto: ["img/primaria_3/H1.png", "img/primaria_3/H2.png", "img/primaria_3/H3.png", "img/primaria_3/H4.png"]
   },
   {
-    titolo: "La vita nello stagno",
+    titolo: "Depurazione e preparazione dei molluschi",
     copertina: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=400&fit=crop",
     tessere: [
-      "Cade la pioggia",
-      "Lo stagno si riempie d'acqua",
-      "Arrivano insetti e piccoli animali",
-      "Gli uccelli trovano cibo"
+      "Lavaggio",
+      "Controllo",
+      "Confezionamento in retine",
+      "Confezionamento sottovuoto"
     ]
   },
   {
@@ -412,6 +435,7 @@ function initSequenze() {
 }
 
 function renderListaSequenze() {
+  setHeaderBack('Torna ai giochi', backToSelect);
   const pl = document.getElementById('progress-label'); if (pl) pl.textContent = '';
 
   const cardsHTML = SEQUENZE.map((s, i) => {
@@ -470,6 +494,7 @@ function renderGiocoSequenzaCompletata() {
   }).join('');
 
   const { btnLabel, btnAction } = seqProssima();
+  setHeaderBack('Torna alle sequenze', renderListaSequenze);
 
   document.getElementById('game-area').innerHTML = `
     <div class="seq-gioco-outer">
@@ -488,7 +513,6 @@ function renderGiocoSequenzaCompletata() {
         <div class="seq-slots">${slotsHTML}</div>
       </div>
       <div class="seq-bottom">
-        <button class="btn-secondary" style="font-size:14px;padding:10px 20px" onclick="renderListaSequenze()">← Torna alla lista</button>
         <button class="btn-primary" onclick="${btnAction}">${btnLabel}</button>
       </div>
     </div>`;
@@ -510,6 +534,8 @@ function renderGiocoSequenza() {
     </div>`;
   }).join('');
 
+  setHeaderBack('Torna alle sequenze', renderListaSequenze);
+
   document.getElementById('game-area').innerHTML = `
     <div class="seq-gioco-outer">
       <div class="seq-header">
@@ -526,10 +552,6 @@ function renderGiocoSequenza() {
       <div class="seq-slots-area">
         <div class="seq-slots">${slotsHTML}</div>
         <div class="seq-tessere">${tessereHTML}</div>
-      </div>
-      <div class="seq-bottom">
-        <button class="btn-secondary" style="font-size:14px;padding:10px 20px" onclick="renderListaSequenze()">← Torna alla lista</button>
-
       </div>
     </div>`;
 }
@@ -602,9 +624,7 @@ function selezionaSlot(slotIdx) {
           const { btnLabel, btnAction } = seqProssima();
           const bottomEl = document.querySelector('.seq-bottom');
           if (bottomEl) {
-            bottomEl.innerHTML = `
-              <button class="btn-secondary" style="font-size:14px;padding:10px 20px" onclick="renderListaSequenze()">← Torna alla lista</button>
-              <button class="btn-primary" onclick="${btnAction}">${btnLabel}</button>`;
+            bottomEl.innerHTML = `<button class="btn-primary" onclick="${btnAction}">${btnLabel}</button>`;
           }
         }, 400);
       }

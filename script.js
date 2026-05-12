@@ -36,8 +36,8 @@ const ABBINAMENTO_DATI = [
   { testo: 'Allevamento delle cozze', categoria: "Attività dell'uomo",  img: 'img/primaria_2/allevamento-cozze.png' },
   { testo: 'Navigazione in barca',    categoria: "Attività dell'uomo",  img: 'img/primaria_2/navigazione.png' },
   { testo: 'Coltivazione del riso',   categoria: "Attività dell'uomo",  img: 'img/primaria_2/coltivazione-riso.png' },
-  { testo: 'Laguna',                  categoria: 'Ambienti del Delta',  img: 'img/primaria_2/laguna-a.png' },
-  { testo: 'Valle da pesca',          categoria: 'Ambienti del Delta',  img: 'img/primaria_2/valle_da_pesca_a.png' },
+  { testo: 'Laguna',                  categoria: 'Ambienti del Delta',  img: 'img/primaria_2/laguna.png' },
+  { testo: 'Valle da pesca',          categoria: 'Ambienti del Delta',  img: 'img/primaria_2/valle-da-pesca.png' },
   { testo: 'Canneto',                 categoria: 'Ambienti del Delta',  img: 'img/primaria_2/canneto.png' },
   { testo: 'Barena',                  categoria: 'Ambienti del Delta',  img: 'img/primaria_2/barena.png' },
 ];
@@ -282,12 +282,12 @@ function mostraToast(tipo, testoCustom, silenzioso = false) {
 
 function mostraRiepilogoAbbinamento() {
   let messaggio, emoji;
-  if (abbErrori === 0)       { messaggio = "Perfetto! Sei un vero esperto del Delta!"; emoji = "🏆"; }
-  else if (abbErrori <= 2)   { messaggio = "Ottimo! Conosci benissimo il Delta del Po."; emoji = "⭐"; }
-  else if (abbErrori <= 4)   { messaggio = "Bene! Hai ancora qualcosa da scoprire."; emoji = "🌿"; }
-  else if (abbErrori <= 6)   { messaggio = "Ci siamo quasi! Riprova e impara di più."; emoji = "💪"; }
-  else if (abbErrori <= 10)  { messaggio = "Il Delta ha ancora tanti segreti per te!"; emoji = "🔍"; }
-  else                        { messaggio = "Inizia da capo, il Delta ti aspetta!"; emoji = "🌊"; }
+  if (abbErrori === 0)       { messaggio = "Perfetto! Sei un vero esperto del Delta!"; emoji = 'img/ic_feedback/feedback-1-risultato-perfetto.png'; }
+  else if (abbErrori <= 2)   { messaggio = "Ottimo! Conosci benissimo il Delta del Po."; emoji = 'img/ic_feedback/feedback-2-ottimo.png'; }
+  else if (abbErrori <= 4)   { messaggio = "Bene! Hai ancora qualcosa da scoprire."; emoji = 'img/ic_feedback/feedback-3-buon-risultato.png'; }
+  else if (abbErrori <= 6)   { messaggio = "Ci siamo quasi! Riprova e impara di più."; emoji = 'img/ic_feedback/feedback-4-ci-siamo-quasi.png'; }
+  else if (abbErrori <= 10)  { messaggio = "Il Delta ha ancora tanti segreti per te!"; emoji = 'img/ic_feedback/feedback-5-continua-ad-esplorare.png'; }
+  else                        { messaggio = "Inizia da capo, il Delta ti aspetta!"; emoji = 'img/ic_feedback/feedback-6-riparti-dall-inizio.png'; }
 
   const erroriTesto = abbErrori === 0
     ? "Nessun errore — risultato perfetto!"
@@ -297,7 +297,7 @@ function mostraRiepilogoAbbinamento() {
 
   document.getElementById('game-area').innerHTML = `
     <div class="riepilogo-wrap">
-      <div class="riepilogo-emoji">${emoji}</div>
+      <div class="riepilogo-emoji"><img src="${emoji}" alt=""></div>
       <div class="riepilogo-titolo">Tutte le tessere al loro posto!</div>
       <div class="riepilogo-sottotitolo">${erroriTesto} ${messaggio}</div>
       <div class="riepilogo-azioni">
@@ -648,7 +648,7 @@ function selezionaSlot(slotIdx) {
 function mostraRiepilogoSequenze() {
   document.getElementById('game-area').innerHTML = `
     <div class="riepilogo-wrap">
-      <div class="riepilogo-emoji">🌿</div>
+      <div class="riepilogo-emoji"><img src="img/ic_feedback/feedback-3-buon-risultato.png" alt=""></div>
       <div class="riepilogo-titolo">Tutte le sequenze completate!</div>
       <div class="riepilogo-sottotitolo">Conosci alla perfezione la vita del Delta del Po.</div>
       <div class="riepilogo-azioni">
@@ -1048,19 +1048,19 @@ async function mostraRiepilogoSec() {
   const pct = Math.round((qsPunteggio / maxPunti) * 100);
 
   let titolo, sottotitolo, emoji;
-  if (pct === 100)     { titolo = "Punteggio perfetto!"; sottotitolo = "Sei un vero esperto del Delta — e velocissimo!"; emoji = "🏆"; }
-  else if (pct >= 80)  { titolo = "Ottimo risultato!"; sottotitolo = "Conosci benissimo il Delta del Po."; emoji = "⭐"; }
-  else if (pct >= 60)  { titolo = "Buon risultato!"; sottotitolo = "Hai ancora qualcosa da scoprire."; emoji = "🌿"; }
-  else if (pct >= 40)  { titolo = "Ci siamo quasi!"; sottotitolo = "Riprova e migliora il tuo punteggio."; emoji = "💪"; }
-  else if (pct > 0)    { titolo = "Continua a esplorare!"; sottotitolo = "Il Delta ha ancora tanti segreti per te."; emoji = "🔍"; }
-  else                  { titolo = "Riparti dall'inizio!"; sottotitolo = "Il Delta del Po ti aspetta."; emoji = "🌊"; }
+  if (pct === 100)     { titolo = "Punteggio perfetto!"; sottotitolo = "Sei un vero esperto del Delta — e velocissimo!"; emoji = 'img/ic_feedback/feedback-1-risultato-perfetto.png'; }
+  else if (pct >= 80)  { titolo = "Ottimo risultato!"; sottotitolo = "Conosci benissimo il Delta del Po."; emoji = 'img/ic_feedback/feedback-2-ottimo.png'; }
+  else if (pct >= 60)  { titolo = "Buon risultato!"; sottotitolo = "Hai ancora qualcosa da scoprire."; emoji = 'img/ic_feedback/feedback-3-buon-risultato.png'; }
+  else if (pct >= 40)  { titolo = "Ci siamo quasi!"; sottotitolo = "Riprova e migliora il tuo punteggio."; emoji = 'img/ic_feedback/feedback-4-ci-siamo-quasi.png'; }
+  else if (pct > 0)    { titolo = "Continua a esplorare!"; sottotitolo = "Il Delta ha ancora tanti segreti per te."; emoji = 'img/ic_feedback/feedback-5-continua-ad-esplorare.png'; }
+  else                  { titolo = "Riparti dall'inizio!"; sottotitolo = "Il Delta del Po ti aspetta."; emoji = 'img/ic_feedback/feedback-6-riparti-dall-inizio.png'; }
 
   const badge = document.getElementById('fascia-badge');
   if (badge) { badge.textContent = 'Secondaria · 11–14 anni'; badge.style.display = ''; }
 
   document.getElementById('game-area').innerHTML = `
     <div class="riepilogo-wrap">
-      <div class="riepilogo-emoji">${emoji}</div>
+      <div class="riepilogo-emoji"><img src="${emoji}" alt=""></div>
       <div class="riepilogo-titolo">${titolo}</div>
       <div class="riepilogo-sottotitolo">${sottotitolo}</div>
       <div class="riepilogo-score-label">Il tuo punteggio è</div>
@@ -1694,11 +1694,11 @@ async function mostraRiepilogoGestisci() {
   const media = Math.round(Object.values(gestisciIndicatori).reduce((a,b) => a+b, 0) / 4);
 
   let esito, messaggio, emoji;
-  if (media >= 80)      { esito = 'Delta in equilibrio'; messaggio = 'Hai trovato un ottimo equilibrio tra natura, lavoro e comunità. Il Delta è vivo e ben gestito.'; emoji = '🌊'; }
-  else if (media >= 60) { esito = 'Buona gestione, ma migliorabile'; messaggio = 'Il Delta resiste, ma alcune scelte hanno creato squilibri. Serve più attenzione.'; emoji = '🌿'; }
-  else if (media >= 40) { esito = 'Equilibrio fragile'; messaggio = 'Alcuni indicatori sono in difficoltà. Le attività umane e la natura non sono ancora bilanciate.'; emoji = '⚠️'; }
-  else if (media >= 20) { esito = 'Delta sotto pressione'; messaggio = "L'ambiente è degradato o l'economia locale è in crisi. Le decisioni non sono state sostenibili."; emoji = '🔴'; }
-  else                   { esito = 'Crisi del Delta'; messaggio = 'Le scelte hanno compromesso gravemente habitat, acqua, lavoro o consenso sociale.'; emoji = '💔'; }
+  if (media >= 80)      { esito = 'Delta in equilibrio'; messaggio = 'Hai trovato un ottimo equilibrio tra natura, lavoro e comunità. Il Delta è vivo e ben gestito.'; emoji = 'img/ic_feedback/feedback-1-risultato-perfetto.png'; }
+  else if (media >= 60) { esito = 'Buona gestione, ma migliorabile'; messaggio = 'Il Delta resiste, ma alcune scelte hanno creato squilibri. Serve più attenzione.'; emoji = 'img/ic_feedback/feedback-3-buon-risultato.png'; }
+  else if (media >= 40) { esito = 'Equilibrio fragile'; messaggio = 'Alcuni indicatori sono in difficoltà. Le attività umane e la natura non sono ancora bilanciate.'; emoji = 'img/ic_feedback/feedback-7-equilibrio-fragile.png'; }
+  else if (media >= 20) { esito = 'Delta sotto pressione'; messaggio = "L'ambiente è degradato o l'economia locale è in crisi. Le decisioni non sono state sostenibili."; emoji = 'img/ic_feedback/feedback-8-delta-sotto-pressione.png'; }
+  else                   { esito = 'Crisi del Delta'; messaggio = 'Le scelte hanno compromesso gravemente habitat, acqua, lavoro o consenso sociale.'; emoji = 'img/ic_feedback/feedback-9-crisi-del-delta.png'; }
 
   const attenzioneLabels = {
     biodiversita: { label: 'Biodiversità', msg: 'Flora e fauna del Delta sono in difficoltà. Serve più attenzione alla protezione degli habitat.' },
@@ -1738,7 +1738,7 @@ async function mostraRiepilogoGestisci() {
       <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:60px;padding:120px 0;overflow-y:auto">
         <!-- Emoji + titolo + sottotitolo -->
         <div style="display:flex;flex-direction:column;gap:6px">
-          <div class="riepilogo-emoji" style="text-align:left">${emoji}</div>
+          <div class="riepilogo-emoji" style="text-align:left"><img src="${emoji}" alt=""></div>
           <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--verde-scuro);line-height:1.2">${esito}</div>
           <div style="font-size:18px;color:var(--testo-medio);white-space:nowrap">${messaggio}</div>
         </div>
@@ -2216,7 +2216,7 @@ function viaggioRispondi(idx, correttaIdx) {
   if (arrivatoAllArrivo) {
     suonaVittoria();
     setTimeout(esplodiCoriandoli, 300);
-    avantiEl.innerHTML = `<button class="btn-primary" onclick="mostraRiepilogoViaggio(true, ${viaggioTurnoCorrente}, ${nuovaPosizione})">🎉 Arrivo!</button>`;
+    avantiEl.innerHTML = `<button class="btn-primary" onclick="mostraRiepilogoViaggio(true, ${viaggioTurnoCorrente}, ${nuovaPosizione})"><img src="img/ic_feedback/feedback-11-arrivo-ultima-tappa.png" style="width:20px;height:20px;vertical-align:middle;margin-right:6px" alt=""> Arrivo!</button>`;
   } else if (finitiTurni) {
     avantiEl.innerHTML = `<button class="btn-primary" onclick="mostraRiepilogoViaggio(false, ${viaggioTurnoCorrente}, ${nuovaPosizione})">Fine del percorso →</button>`;
   } else {
@@ -2250,16 +2250,16 @@ async function mostraRiepilogoViaggio(completato, turniUsati, tappeIdx) {
   const punteggio = Math.round((tappeRaggiunte / percorso.tappe.length) * 100);
 
   let emoji, titolo, desc;
-  if (completato) { emoji = '🏆'; titolo = 'Percorso completato!'; desc = `Hai attraversato tutto il Delta in ${turniUsati} turni. Ottimo esploratore!`; }
-  else if (tappeRaggiunte >= 6) { emoji = '🌿'; titolo = 'Quasi in fondo!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Ci sei quasi!`; }
-  else if (tappeRaggiunte >= 3) { emoji = '🚶'; titolo = 'Buon viaggio!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Continua a esplorare!`; }
-  else { emoji = '🌊'; titolo = 'Il Delta ti aspetta ancora!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Riprova!`; }
+  if (completato) { emoji = 'img/ic_feedback/feedback-1-risultato-perfetto.png'; titolo = 'Percorso completato!'; desc = `Hai attraversato tutto il Delta in ${turniUsati} turni. Ottimo esploratore!`; }
+  else if (tappeRaggiunte >= 6) { emoji = 'img/ic_feedback/feedback-3-buon-risultato.png'; titolo = 'Quasi in fondo!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Ci sei quasi!`; }
+  else if (tappeRaggiunte >= 3) { emoji = 'img/ic_feedback/feedback-10-buon viaggio.png'; titolo = 'Buon viaggio!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Continua a esplorare!`; }
+  else { emoji = 'img/ic_feedback/feedback-6-riparti-dall-inizio.png'; titolo = 'Il Delta ti aspetta ancora!'; desc = `Hai raggiunto la tappa ${tappeRaggiunte} di ${percorso.tappe.length}. Riprova!`; }
 
   salvaInClassifica('viaggio', punteggio).catch(console.error);
 
   document.getElementById('game-area').innerHTML = `
     <div class="viaggio-riepilogo">
-      <div class="riepilogo-emoji">${emoji}</div>
+      <div class="riepilogo-emoji"><img src="${emoji}" alt=""></div>
       <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--verde-scuro)">${titolo}</div>
       <div style="font-size:18px;color:var(--testo-medio)">${desc}</div>
       <div style="font-family:'Fraunces',serif;font-size:64px;font-weight:700;color:var(--verde-scuro);line-height:1">${tappeRaggiunte}<span style="font-size:24px;color:var(--testo-medio)"> / ${percorso.tappe.length} tappe</span></div>
@@ -2380,7 +2380,7 @@ const QUIZ_DOMANDE = [
   {
     domanda: "Quale pianta cresce spesso vicino all'acqua nel Delta?",
     opzioni: ["Salicornia", "Canna palustre", "Tamerice", "Giunco marino"],
-    opzioniFoto: ["img/primaria_1/4-Salicomia.png","img/primaria_1/4-Canna-palustre-OK.png","img/primaria_1/4-Tamerice.png","img/primaria_1/4-Giunco-marino.png"],
+    opzioniFoto: ["img/primaria_1/4-Salicomia.png","img/primaria_1/4-Canna-palustre.png","img/primaria_1/4-Tamerice.png","img/primaria_1/4-Giunco-marino.png"],
     layoutFoto: '2x2',
     corretta: 1,
     foto: "img/primaria_1/1_04_canna_palustre.png",
@@ -2389,7 +2389,7 @@ const QUIZ_DOMANDE = [
   {
     domanda: "Quale animale vive nelle acque del Delta?",
     opzioni: ["Luccio", "Polpo", "Spigola", "Tinca"],
-    opzioniFoto: ["img/primaria_1/5-Luccio.png","img/primaria_1/5-Polpo.png","img/primaria_1/5-Spigola-OK.png","img/primaria_1/5-Tinca.png"],
+    opzioniFoto: ["img/primaria_1/5-Luccio.png","img/primaria_1/5-Polpo.png","img/primaria_1/5-Spigola.png","img/primaria_1/5-Tinca.png"],
     layoutFoto: '2x2',
     corretta: 2,
     foto: "img/primaria_1/1_05_spigola.png",
@@ -2415,7 +2415,7 @@ const QUIZ_DOMANDE = [
       "Allevamento delle pecore",
       "Taglio del legname nei pioppeti"
     ],
-    opzioniFoto: ["img/primaria_1/7-Vigneto-NO-MELETO.png","img/primaria_1/7-Pesca-OK.png","img/primaria_1/7-Pecore.png","img/primaria_1/7-Pioppeto.png"],
+    opzioniFoto: ["img/primaria_1/7-Vigneto.png","img/primaria_1/7-Pesca.png","img/primaria_1/7-Pecore.png","img/primaria_1/7-Pioppeto.png"],
     layoutFoto: '2x2',
     corretta: 1,
     foto: "img/primaria_1/1_07_pesca.png",
@@ -2424,7 +2424,7 @@ const QUIZ_DOMANDE = [
   {
     domanda: "Quale mezzo si usa spesso per muoversi nei canali?",
     opzioni: ["Barca a fondo piatto", "Bicicletta d'acqua", "Piccolo traghetto", "Moto d'acqua"],
-    opzioniFoto: ["img/primaria_1/8-Barca-OK.png","img/primaria_1/8-Bicicletta-acqua.png","img/primaria_1/8-Traghetto.png","img/primaria_1/8-Moto-acqua.png"],
+    opzioniFoto: ["img/primaria_1/8-Barca.png","img/primaria_1/8-Bicicletta-acqua.png","img/primaria_1/8-Traghetto.png","img/primaria_1/8-Moto-acqua.png"],
     layoutFoto: '2x2',
     corretta: 0,
     foto: "img/primaria_1/1_08_barca_fondo_piatto.png",
@@ -2438,7 +2438,7 @@ const QUIZ_DOMANDE = [
       "Nei boschi di pioppeti",
       "Sulle scogliere"
     ],
-    opzioniFoto: ["img/primaria_1/9-Campanile.png","img/primaria_1/9-Laguna-OK.png","img/primaria_1/9-Bosco-pioppi.png","img/primaria_1/9-Scogliera.png"],
+    opzioniFoto: ["img/primaria_1/9-Campanile.png","img/primaria_1/9-Laguna.png","img/primaria_1/9-Bosco-pioppi.png","img/primaria_1/9-Scogliera.png"],
     layoutFoto: '2x2',
     corretta: 1,
     foto: "img/primaria_1/1_09_canneti.png",
@@ -2447,7 +2447,7 @@ const QUIZ_DOMANDE = [
   {
     domanda: "Quale mollusco viene allevato nelle lagune del Delta?",
     opzioni: ["Ostrica", "Patella", "Tellina", "Chiocciola di mare"],
-    opzioniFoto: ["img/primaria_1/10-Ostrica-OK.png","img/primaria_1/10-Patella.png","img/primaria_1/10-Tellina.png","img/primaria_1/10-Chiocciola.png"],
+    opzioniFoto: ["img/primaria_1/10-Ostrica.png","img/primaria_1/10-Patella.png","img/primaria_1/10-Tellina.png","img/primaria_1/10-Chiocciola.png"],
     corretta: 0,
     foto: "img/primaria_1/1_10_cozza.png",
     fotoCaption: "Le cozze allevate nelle lagune"
@@ -2669,16 +2669,16 @@ function prossimadomanda() {
 
 function mostraRiepilogo() {
   let titolo, sottotitolo, emoji;
-  if (quizPunteggio === 10)    { titolo = "Risultato perfetto!"; sottotitolo = "Sei un vero esperto del Delta del Po."; emoji = "🏆"; }
-  else if (quizPunteggio >= 8) { titolo = "Ottimo risultato!"; sottotitolo = "Conosci benissimo il Delta del Po."; emoji = "⭐"; }
-  else if (quizPunteggio >= 6) { titolo = "Buon risultato!"; sottotitolo = "Hai ancora qualcosa da scoprire."; emoji = "🌿"; }
-  else if (quizPunteggio >= 4) { titolo = "Ci siamo quasi!"; sottotitolo = "Riprova e impara di più sul Delta."; emoji = "💪"; }
-  else if (quizPunteggio >= 1) { titolo = "Continua a esplorare!"; sottotitolo = "Il Delta ha ancora tanti segreti per te."; emoji = "🔍"; }
-  else                          { titolo = "Riparti dall'inizio!"; sottotitolo = "Il Delta del Po ti aspetta."; emoji = "🌊"; }
+  if (quizPunteggio === 10)    { titolo = "Risultato perfetto!"; sottotitolo = "Sei un vero esperto del Delta del Po."; emoji = 'img/ic_feedback/feedback-1-risultato-perfetto.png'; }
+  else if (quizPunteggio >= 8) { titolo = "Ottimo risultato!"; sottotitolo = "Conosci benissimo il Delta del Po."; emoji = 'img/ic_feedback/feedback-2-ottimo.png'; }
+  else if (quizPunteggio >= 6) { titolo = "Buon risultato!"; sottotitolo = "Hai ancora qualcosa da scoprire."; emoji = 'img/ic_feedback/feedback-3-buon-risultato.png'; }
+  else if (quizPunteggio >= 4) { titolo = "Ci siamo quasi!"; sottotitolo = "Riprova e impara di più sul Delta."; emoji = 'img/ic_feedback/feedback-4-ci-siamo-quasi.png'; }
+  else if (quizPunteggio >= 1) { titolo = "Continua a esplorare!"; sottotitolo = "Il Delta ha ancora tanti segreti per te."; emoji = 'img/ic_feedback/feedback-5-continua-ad-esplorare.png'; }
+  else                          { titolo = "Riparti dall'inizio!"; sottotitolo = "Il Delta del Po ti aspetta."; emoji = 'img/ic_feedback/feedback-6-riparti-dall-inizio.png'; }
 
   document.getElementById('game-area').innerHTML = `
     <div class="riepilogo-wrap">
-      <div class="riepilogo-emoji">${emoji}</div>
+      <div class="riepilogo-emoji"><img src="${emoji}" alt=""></div>
       <div class="riepilogo-titolo">${titolo}</div>
       <div class="riepilogo-sottotitolo">${sottotitolo}</div>
       <div class="riepilogo-score-label">Il tuo punteggio è</div>

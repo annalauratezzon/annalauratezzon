@@ -348,14 +348,15 @@ const SEQUENZE = [
     foto: ["img/primaria_3/C1.png", "img/primaria_3/C2.png", "img/primaria_3/C3.png", "img/primaria_3/C4.png"]
   },
   {
-    titolo: "Il volo degli uccelli migratori",
-    copertina: "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=400&h=400&fit=crop",
+    titolo: "La pesca in laguna",
+    copertina: "img/primaria_3/D1.png",
     tessere: [
-      "Gli uccelli partono da lontano",
-      "Volano sopra fiumi e campagne",
-      "Si fermano nelle zone umide",
-      "Riposano e cercano cibo"
-    ]
+      "Arrivo alla zona di pesca",
+      "Raccolta con la rasca",
+      "Preparazione in barca",
+      "Preparazione in capanno"
+    ],
+    foto: ["img/primaria_3/D1.png", "img/primaria_3/D2.png", "img/primaria_3/D3.png", "img/primaria_3/D4.png"]
   },
   {
     titolo: "Dalla laguna alla tavola",
@@ -380,14 +381,15 @@ const SEQUENZE = [
     foto: ["img/primaria_3/F1.png", "img/primaria_3/F2.png", "img/primaria_3/F3.png", "img/primaria_3/F4.png"]
   },
   {
-    titolo: "Costruire un nido",
-    copertina: "https://images.unsplash.com/photo-1439130490301-25e322d88054?w=400&h=400&fit=crop",
+    titolo: "La pesca in mare",
+    copertina: "img/primaria_3/G1.png",
     tessere: [
-      "L'uccello sceglie un posto sicuro",
-      "Raccoglie rametti ed erbe",
-      "Costruisce il nido",
-      "Depone le uova"
-    ]
+      "Uscita in mare",
+      "Raccolta con le reti",
+      "Preparazione",
+      "Vendita all'asta in porto"
+    ],
+    foto: ["img/primaria_3/G1.png", "img/primaria_3/G2.png", "img/primaria_3/G3.png", "img/primaria_3/G4.png"]
   },
   {
     titolo: "Una gita in barca nel Delta",
@@ -402,13 +404,14 @@ const SEQUENZE = [
   },
   {
     titolo: "Depurazione e preparazione dei molluschi",
-    copertina: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=400&fit=crop",
+    copertina: "img/primaria_3/I1.png",
     tessere: [
       "Lavaggio",
       "Controllo",
       "Confezionamento in retine",
       "Confezionamento sottovuoto"
-    ]
+    ],
+    foto: ["img/primaria_3/I1.png", "img/primaria_3/I2.png", "img/primaria_3/I3.png", "img/primaria_3/I4.png"]
   },
   {
     titolo: "Proteggere il Delta",

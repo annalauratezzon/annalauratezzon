@@ -285,12 +285,12 @@ function mostraRiepilogoAbbinamento() {
   if (abbErrori === 0)       { messaggio = "Perfetto! Sei un vero esperto del Delta!"; emoji = 'img/ic_feedback/feedback-1-risultato-perfetto.png'; }
   else if (abbErrori <= 2)   { messaggio = "Ottimo! Conosci benissimo il Delta del Po."; emoji = 'img/ic_feedback/feedback-2-ottimo.png'; }
   else if (abbErrori <= 4)   { messaggio = "Bene! Hai ancora qualcosa da scoprire."; emoji = 'img/ic_feedback/feedback-3-buon-risultato.png'; }
-  else if (abbErrori <= 6)   { messaggio = "Ci siamo quasi! Riprova e impara di più."; emoji = 'img/ic_feedback/feedback-4-ci-siamo-quasi.png'; }
+  else if (abbErrori <= 6)   { messaggio = "Ci siamo quasi! Puoi riprova per imparare di più."; emoji = 'img/ic_feedback/feedback-4-ci-siamo-quasi.png'; }
   else if (abbErrori <= 10)  { messaggio = "Il Delta ha ancora tanti segreti per te!"; emoji = 'img/ic_feedback/feedback-5-continua-ad-esplorare.png'; }
   else                        { messaggio = "Inizia da capo, il Delta ti aspetta!"; emoji = 'img/ic_feedback/feedback-6-riparti-dall-inizio.png'; }
 
   const erroriTesto = abbErrori === 0
-    ? "Nessun errore — risultato perfetto!"
+    ? "Wow, Nessun errore!"
     : abbErrori === 1
       ? "Hai fatto 1 solo errore."
       : `Hai fatto ${abbErrori} errori.`;
@@ -351,10 +351,10 @@ const SEQUENZE = [
     titolo: "La pesca in laguna",
     copertina: "img/primaria_3/D1.png",
     tessere: [
-      "Arrivo alla zona di pesca",
-      "Raccolta con la rasca",
-      "Preparazione in barca",
-      "Preparazione in capanno"
+      "Il pescatore arriva nella zona di pesca",
+      "Raccoglie i molluschi con la rasca",
+      "Confeziona i molluschi in sacchetti",
+      "Continua la preparazione dei molluschi nel capanno"
     ],
     foto: ["img/primaria_3/D1.png", "img/primaria_3/D2.png", "img/primaria_3/D3.png", "img/primaria_3/D4.png"]
   },
@@ -384,10 +384,10 @@ const SEQUENZE = [
     titolo: "La pesca in mare",
     copertina: "img/primaria_3/G1.png",
     tessere: [
-      "Uscita in mare",
-      "Raccolta con le reti",
-      "Preparazione",
-      "Vendita all'asta in porto"
+      "Il pescatore porta la barca in mare",
+      "Raccoglie il pesce con le reti",
+      "Preparazione il pesce per la vendita",
+      "Vende il pesce all'asta in porto"
     ],
     foto: ["img/primaria_3/G1.png", "img/primaria_3/G2.png", "img/primaria_3/G3.png", "img/primaria_3/G4.png"]
   },
@@ -397,7 +397,7 @@ const SEQUENZE = [
     tessere: [
       "I bambini salgono sulla barca",
       "La barca entra nei canali",
-      "Si osservano canneti e uccelli",
+      "Osservano canneti e uccelli",
       "La barca ritorna al pontile"
     ],
     foto: ["img/primaria_3/H1.png", "img/primaria_3/H2.png", "img/primaria_3/H3.png", "img/primaria_3/H4.png"]
@@ -406,10 +406,10 @@ const SEQUENZE = [
     titolo: "Depurazione e preparazione dei molluschi",
     copertina: "img/primaria_3/I1.png",
     tessere: [
-      "Lavaggio",
-      "Controllo",
-      "Confezionamento in retine",
-      "Confezionamento sottovuoto"
+      "I molluschi vengono lavati",
+      "Vengono controllati",
+      "Vengono confezionati in retine",
+      "Vengono messi sottovuoto"
     ],
     foto: ["img/primaria_3/I1.png", "img/primaria_3/I2.png", "img/primaria_3/I3.png", "img/primaria_3/I4.png"]
   },
@@ -446,13 +446,13 @@ function renderListaSequenze() {
     return `
       <div class="seq-card ${fatta ? 'completata' : ''}" onclick="avviaSequenza(${i})">
         <div class="seq-card-badge">✓</div>
-        <div class="seq-card-img-wrap">
-        ${s.copertina
-          ? `<img class="seq-card-img" src="${s.copertina}" alt="${s.titolo}">`
-          : placeholderFoto(32, 'seq-card-placeholder')}
-      </div>
-      <div class="seq-card-num">Sequenza ${i + 1}</div>
+        <div class="seq-card-num">Sequenza ${i + 1}</div>
         <div class="seq-card-titolo">${s.titolo}</div>
+        <div class="seq-card-img-wrap">
+          ${s.copertina
+            ? `<img class="seq-card-img" src="${s.copertina}" alt="${s.titolo}">`
+            : placeholderFoto(32, 'seq-card-placeholder')}
+        </div>
         ${fatta ? `<div class="seq-card-stato fatta"><span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle">check_circle</span> Completata</div>` : ''}
       </div>`;
   }).join('');
@@ -556,6 +556,7 @@ function renderGiocoSequenza() {
         <div class="seq-slots">${slotsHTML}</div>
         <div class="seq-tessere">${tessereHTML}</div>
       </div>
+      <div class="seq-bottom"></div>
     </div>`;
 }
 
@@ -681,7 +682,7 @@ const QUIZ_SEC_DOMANDE = [
   },
   {
     domanda: "Quale mare riceve le acque del fiume Po?",
-    opzioni: ["Mar Adriatico", "Mar Tirreno", "Mar Ligure", "Mar Ionio settentrionale"],
+    opzioni: ["Mar Adriatico", "Mar Tirreno", "Mar Ligure", "Mar Ionio Settentrionale"],
     corretta: 0,
     tempo: 10
   },
@@ -996,9 +997,6 @@ function rispondiSec(idx) {
 
 function riprovaSec() {
   qsStato = 'domanda';
-  // Riavvia timer da capo (bonus velocità azzerato)
-  qsStopTimer();
-  qsAvviaTimer();
   document.querySelectorAll('.quiz-opzione').forEach(btn => {
     if (!btn.classList.contains('sbagliata')) btn.disabled = false;
   });
@@ -1115,6 +1113,7 @@ function renderSelectBody() {
     <div class="select-intro">
       <div class="select-intro-titolo">I giochi del Delta</div>
       <div class="select-intro-sottotitolo">${fasciaNome}</div>
+      <div class="select-intro-hint">Se hai visitato la mostra conosci già le risposte!</div>
     </div>
     <div class="select-cards-grid">${cardsHTML}</div>`;
 }
@@ -1144,6 +1143,7 @@ function goToSelect(fascia) {
 }
 
 function backToSelect() {
+  qsStopTimer();
   renderSelectBody();
   showScreen('screen-select');
 }
@@ -1307,7 +1307,7 @@ const ISTRUZIONI = {
   'abbinamento': {
     label: 'Metti al posto giusto',
     steps: [
-      'Seleziona una tessera dalla colonna di sinistra.',
+      'Seleziona una tessera tra le 16 figure in alto',
       "Scegli la categoria corretta tra Flora, Fauna, Attività dell'uomo e Ambienti del Delta.",
       "Se l'abbinamento è giusto, la tessera si sposta nella colonna!",
       'Abbina tutte e 16 le tessere per completare il gioco.'
@@ -1318,7 +1318,7 @@ const ISTRUZIONI = {
     steps: [
       'Scegli una storia del Delta dalla lista.',
       "Osserva le 4 immagini mescolate — devi rimetterle nell'ordine corretto.",
-      "Tocca un'immagine per selezionarla, poi tocca lo slot dove vuoi posizionarla.",
+      "Tocca un'immagine per selezionarla, poi tocca lo spazio numerato dove vuoi posizionarla.",
       'Completa tutte le sequenze per finire il gioco!'
     ]
   },
@@ -1334,7 +1334,7 @@ const ISTRUZIONI = {
   'gestisci': {
     label: 'Gestisci il Delta',
     steps: [
-      'Ogni turno ti viene presentata una situazione reale del Delta del Po.',
+      'Ogni tentativo ti viene presentata una situazione reale del Delta del Po.',
       'Devi prendere una decisione che influenza natura, economia e comunità.',
       'Non esiste una scelta perfetta: ogni azione ha conseguenze!',
       "Cerca l'equilibrio tra i tre indicatori per tenere il Delta in salute."
@@ -1345,7 +1345,7 @@ const ISTRUZIONI = {
     steps: [
       'Scegli un percorso sulla mappa del Delta.',
       'Rispondi correttamente alle domande per avanzare di tappa.',
-      'Se sbagli, torni indietro — più sei preciso, più lontano arrivi!',
+      'Se sbagli una volta, stai fermo. Se sbagli più volte, torni indietro. Quindi più sei preciso, più lontano arrivi!',
       "Raggiungi l'ultima tappa per completare il percorso."
     ]
   }
@@ -1368,6 +1368,14 @@ function mostraIstruzioni() {
 function chiudiIstruzioni(e) {
   if (e && e.target !== document.getElementById('istruzioni-overlay')) return;
   document.getElementById('istruzioni-overlay').classList.remove('aperta');
+}
+
+function apriCrediti() {
+  document.getElementById('crediti-overlay').classList.add('aperta');
+}
+function chiudiCrediti(e) {
+  if (e && e.target !== document.getElementById('crediti-overlay')) return;
+  document.getElementById('crediti-overlay').classList.remove('aperta');
 }
 
 /* ══════════════════════════════════════
@@ -1459,7 +1467,7 @@ function avviaQuizConVelocita() {
 ══════════════════════════════════════ */
 const GESTISCI_SCENARI = [
   {
-    situazione: "In una valle da pesca alcune specie di uccelli nidificano vicino alle zone usate dai pescatori.",
+    situazione: "In una valle da pesca alcune specie di uccelli nidificano <br> vicino alle zone usate dai pescatori.",
     scelte: [
       { label: "A", testo: "Limitare temporaneamente l'accesso durante la nidificazione", conseguenza: "Le zone di nidificazione vengono protette. Gli uccelli tornano a popolare la valle, ma i pescatori protestano per le restrizioni.", effetti: {biodiversita: +15, economia: -5, consenso: -5} },
       { label: "B", testo: "Lasciare l'accesso libero tutto l'anno", conseguenza: "I pescatori lavorano senza interruzioni. Ma i nidi vengono abbandonati e alcune specie spariscono dalla zona.", effetti: {economia: +5, consenso: +5, biodiversita: -15} },
@@ -1476,6 +1484,12 @@ const GESTISCI_SCENARI = [
   },
   {
     situazione: "Alcuni pescatori chiedono di pescare di più in una stagione favorevole.",
+    aiuto: {
+      prompt: "Non sai cosa sono le quote di pesca?",
+      cta: "Scoprilo qui",
+      titolo: "Le quote di pesca",
+      testo: `Immagina un lago con 1000 pesci. Se ogni anno i pescatori ne catturano 200, il lago riesce a "ricrescere" — i pesci si riproducono e il numero rimane stabile. Ma se ne catturano 600, i pesci non fanno in tempo a riprodursi e col tempo il lago si svuota.\n\nLe quote di pesca sono proprio questo: un limite stabilito dalle autorità che dice ai pescatori quanti pesci possono catturare in un certo periodo. Non è un divieto di pescare — è una regola per fare in modo che ci sia ancora pesce da pescare l'anno prossimo, e quello dopo ancora.\n\nNel Delta del Po, dove la pesca è un'attività tradizionale da secoli, stabilire le quote giuste è una sfida: bisogna bilanciare il guadagno dei pescatori con la salute dell'ecosistema. Troppo pochi pesci catturati e il lavoro non rende. Troppi e si rischia di compromettere l'intero equilibrio del Delta.`
+    },
     scelte: [
       { label: "A", testo: "Aumentare subito le quote di pesca", conseguenza: "Le reti si riempiono e i pescatori guadagnano di più. Ma alcune specie iniziano a scarseggiare.", effetti: {economia: +15, biodiversita: -10, consenso: +5} },
       { label: "B", testo: "Mantenere quote sostenibili anche se il guadagno è minore", conseguenza: "Il pesce cresce e si riproduce. Il guadagno è minore oggi, ma il futuro della pesca è garantito.", effetti: {biodiversita: +10, economia: -5, qualita_acqua: +5} },
@@ -1483,7 +1497,7 @@ const GESTISCI_SCENARI = [
     ]
   },
   {
-    situazione: "Una zona di canneto ostacola la vista da un punto panoramico molto visitato.",
+    situazione: "Una zona di canneto ostacola la vista <br> da un punto panoramico molto visitato.",
     scelte: [
       { label: "A", testo: "Tagliare gran parte del canneto", conseguenza: "Il punto panoramico è aperto. Ma il canneto tagliato non farà più da rifugio e filtro per le acque.", effetti: {economia: +10, biodiversita: -15, qualita_acqua: -5} },
       { label: "B", testo: "Lasciare il canneto intatto", conseguenza: "Il canneto rimane intatto, gli uccelli restano. I turisti però si lamentano della scarsa visibilità.", effetti: {biodiversita: +10, qualita_acqua: +5, consenso: -5} },
@@ -1499,7 +1513,7 @@ const GESTISCI_SCENARI = [
     ]
   },
   {
-    situazione: "Un agricoltore vicino al delta vuole usare più fertilizzanti per aumentare la produzione.",
+    situazione: "Un agricoltore vicino al delta <br> vuole usare più fertilizzanti per aumentare la produzione.",
     scelte: [
       { label: "A", testo: "Consentire l'uso senza nuove regole", conseguenza: "Il raccolto aumenta. Ma i fertilizzanti in eccesso raggiungono i canali e alterano l'equilibrio delle acque.", effetti: {economia: +10, qualita_acqua: -15, biodiversita: -10} },
       { label: "B", testo: "Vietare l'uso di fertilizzanti nell'area", conseguenza: "I canali restano puliti. Ma l'agricoltore riduce la produzione e il reddito cala.", effetti: {qualita_acqua: +15, economia: -10, consenso: -10} },
@@ -1507,7 +1521,7 @@ const GESTISCI_SCENARI = [
     ]
   },
   {
-    situazione: "Alcune specie invasive stanno riducendo lo spazio per piante e animali locali.",
+    situazione: "Alcune specie invasive stanno riducendo<br> lo spazio per piante e animali locali.",
     scelte: [
       { label: "A", testo: "Non intervenire: la natura si regolerà da sola", conseguenza: "Si decide di non fare nulla. Le specie invasive si espandono e soffocano flora e fauna locali.", effetti: {biodiversita: -15, consenso: -5} },
       { label: "B", testo: "Avviare un controllo mirato con esperti", conseguenza: "Gli esperti intervengono con precisione. Le specie locali riprendono spazio, l'ecosistema si stabilizza.", effetti: {biodiversita: +15, qualita_acqua: +5, economia: -5} },
@@ -1548,13 +1562,13 @@ const GESTISCI_IND_LABELS = {
 };
 
 const GESTISCI_BADGES = [
-  { id: 'custode', icon: '🌿', label: 'Custode della biodiversità', check: s => s.biodiversita >= 80 },
-  { id: 'mediatore', icon: '🤝', label: 'Mediatore del Delta', check: s => Object.values(s).every(v => v >= 60) },
-  { id: 'campione', icon: '💼', label: "Campione dell'economia locale", check: s => s.economia >= 80 && s.biodiversita >= 50 },
-  { id: 'sostenibile', icon: '♻️', label: 'Gestore sostenibile', check: s => Object.values(s).every(v => v >= 55) },
-  { id: 'guardiano_acqua', icon: '💧', label: "Guardiano dell'acqua", check: s => s.qualita_acqua >= 85 },
-  { id: 'acque_cristalline', icon: '🫧', label: 'Acque cristalline', check: s => s.qualita_acqua >= 75 && s.biodiversita >= 60 },
-  { id: 'allarme', icon: '🚨', label: 'Allarme rosso ambientale', check: s => s.biodiversita < 30 || s.qualita_acqua < 30 },
+  { id: 'custode',          img: 'img/badge/badge-biodiversita.png',        label: 'Custode della biodiversità',      check: s => s.biodiversita >= 80 },
+  { id: 'mediatore',        img: 'img/badge/badge-mediatore.png',            label: 'Mediatore del Delta',             check: s => Object.values(s).every(v => v >= 70) },
+  { id: 'campione',         img: 'img/badge/badge-economia.png',             label: "Campione dell'economia locale",  check: s => s.economia >= 80 && s.biodiversita >= 50 },
+  { id: 'sostenibile',      img: 'img/badge/badge-gestore-sostenibile.png',  label: 'Gestore sostenibile',             check: s => Object.values(s).every(v => v >= 55) && Object.values(s).some(v => v < 70) },
+  { id: 'guardiano_acqua',  img: 'img/badge/badge-guardiano-acqua.png',      label: "Guardiano dell'acqua",           check: s => s.qualita_acqua >= 85 },
+  { id: 'acque_cristalline',img: 'img/badge/badge-acque cristalline.png',   label: 'Acque cristalline',               check: s => s.qualita_acqua >= 75 && s.biodiversita >= 60 },
+  { id: 'allarme',          img: 'img/badge/badge-allarme-rosso.png',        label: 'Allarme rosso ambientale',        check: s => s.biodiversita < 30 || s.qualita_acqua < 30 },
 ];
 
 let gestisciTurno = 0;
@@ -1589,21 +1603,50 @@ function renderGestisciScenario() {
       <div class="quiz-stepper">${buildStepperGestisci()}</div>
       <div class="gestisci-wrap">
         <div class="gestisci-top">
-          <div class="gestisci-situazione">${s.situazione}</div>
-          <div class="gestisci-sottotitolo">Quale pensi sia il comportamento più corretto?</div>
+          <div class="gestisci-problema-box">
+            <div class="gestisci-problema-label">La situazione da affrontare:</div>
+            <div class="gestisci-situazione">${s.situazione}</div>
+          </div>
         </div>
         <div class="gestisci-middle">
+          <div class="gestisci-sottotitolo">Quale pensi sia il comportamento più corretto?</div>
           <div class="gestisci-scelte">
-            ${s.scelte.map((sc, i) => `
-              <div class="gestisci-scelta" id="scelta-${i}" onclick="gestisciFaiScelta(${i})">
-                <div class="gestisci-scelta-label">Opzione ${sc.label}</div>
-                <div class="gestisci-scelta-testo">${sc.testo}</div>
-              </div>`).join('')}
+            ${(() => {
+              const indices = [0, 1, 2];
+              for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+              }
+              return indices.map((origIdx, displayPos) => {
+                const sc = s.scelte[origIdx];
+                const lettera = String.fromCharCode(65 + displayPos);
+                return `
+                <div class="gestisci-scelta" id="scelta-${origIdx}" onclick="gestisciFaiScelta(${origIdx})">
+                  <div class="gestisci-scelta-label">Opzione ${lettera}</div>
+                  <div class="gestisci-scelta-testo">${sc.testo}</div>
+                </div>`;
+              }).join('');
+            })()}
           </div>
+          ${s.aiuto ? `<div class="gestisci-aiuto-hint">${s.aiuto.prompt} <button class="gestisci-aiuto-link" onclick="mostraAiutoGestisci()">${s.aiuto.cta} →</button></div>` : ''}
         </div>
         <div class="gestisci-bottom" id="gestisci-bottom"></div>
       </div>
     </div>`;
+}
+
+function mostraAiutoGestisci() {
+  const s = GESTISCI_SCENARI[gestisciTurno];
+  if (!s.aiuto) return;
+  document.getElementById('gestisci-aiuto-titolo').textContent = s.aiuto.titolo;
+  document.getElementById('gestisci-aiuto-testo').innerHTML = s.aiuto.testo
+    .split('\n\n').map(p => `<p>${p}</p>`).join('');
+  document.getElementById('gestisci-aiuto-overlay').classList.add('visible');
+}
+
+function chiudiAiutoGestisci(e) {
+  if (e && e.target !== document.getElementById('gestisci-aiuto-overlay')) return;
+  document.getElementById('gestisci-aiuto-overlay').classList.remove('visible');
 }
 
 function renderIndicatoriHTML(delta) {
@@ -1657,14 +1700,23 @@ function gestisciFaiScelta(idx) {
   // Determina tipo feedback per colori/icona
   const totPos = Object.values(effetti).filter(v => v > 0).length;
   const totNeg = Object.values(effetti).filter(v => v < 0).length;
-  const feedbackType = totNeg === 0 ? 'pos-feedback' : totPos === 0 ? 'neg-feedback' : 'mixed-feedback';
+  const feedbackType = totNeg === 0            ? 'pos-feedback'
+                     : totPos === 0            ? 'neg-feedback'
+                     : totNeg > totPos         ? 'warn-feedback'
+                     :                          'mixed-feedback';
+
   const iconHTML = feedbackType === 'pos-feedback'
     ? `<div class="tick-wrap"><svg class="tick-svg" viewBox="0 0 52 52"><circle class="tick-circle" cx="26" cy="26" r="23"/><path class="tick-check" d="M14 26 l8 8 l16 -16"/></svg></div>`
     : feedbackType === 'neg-feedback'
     ? `<div class="sad-wrap"><svg class="sad-svg" viewBox="0 0 52 52"><circle class="sad-circle" cx="26" cy="26" r="23"/><circle class="sad-eye-l" cx="18" cy="22" r="2.5"/><circle class="sad-eye-r" cx="34" cy="22" r="2.5"/><path class="sad-mouth" d="M17 34 Q26 26 35 34"/></svg></div>`
+    : feedbackType === 'warn-feedback'
+    ? `<div class="warn-wrap"><svg class="warn-svg" viewBox="0 0 52 52"><path class="warn-triangle" d="M26 6 L47 44 H5 Z"/><line class="warn-excl" x1="26" y1="20" x2="26" y2="33"/><circle class="warn-dot" cx="26" cy="39" r="2"/></svg></div>`
     : `<div class="tick-wrap"><svg class="tick-svg" viewBox="0 0 52 52"><circle class="tick-circle" cx="26" cy="26" r="23"/><path class="tick-check" d="M14 26 l8 8 l16 -16"/></svg></div>`;
 
-  const titolo = feedbackType === 'pos-feedback' ? 'Ottima scelta!' : feedbackType === 'neg-feedback' ? 'Scelta rischiosa.' : 'Scelta equilibrata.';
+  const titolo = feedbackType === 'pos-feedback'  ? 'Ottima scelta!'
+               : feedbackType === 'neg-feedback'  ? 'Scelta scorretta.'
+               : feedbackType === 'warn-feedback'  ? 'Scelta rischiosa.'
+               :                                    'Scelta equilibrata.';
 
   const bottom = document.getElementById('gestisci-bottom');
   if (bottom) {
@@ -1713,43 +1765,39 @@ async function mostraRiepilogoGestisci() {
   const badges = GESTISCI_BADGES.filter(b => b.check(gestisciIndicatori));
 
   const badgesHTML = badges.length > 0 ? `
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="font-size:16px;font-weight:700;color:var(--testo-scuro)">Che tipo di gestore sei?</div>
-      <div class="gestisci-badges">${badges.map(b => `<div class="gestisci-badge"><span class="gestisci-badge-icon">${b.icon}</span>${b.label}</div>`).join('')}</div>
+    <div class="gestisci-riepilogo-sezione">
+      <div class="gestisci-riepilogo-sezione-titolo">Che tipo di gestore sei?</div>
+      <div class="gestisci-badges">${badges.map(b => `<div class="gestisci-badge"><img src="${b.img}" alt="${b.label}"></div>`).join('')}</div>
     </div>` : '';
 
   const attenzioneHTML = attenzioni.length > 0 ? `
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="font-size:16px;font-weight:700;color:var(--testo-scuro)">In cosa puoi migliorare?</div>
-      ${attenzioni.map(a => `<p style="font-size:15px;color:var(--testo-scuro);margin:0;line-height:1.5"><strong>${a.label}:</strong> ${a.msg}</p>`).join('')}
+    <div class="gestisci-riepilogo-sezione">
+      <div class="gestisci-riepilogo-sezione-titolo">In cosa puoi migliorare?</div>
+      ${attenzioni.map(a => `<p class="gestisci-riepilogo-attenzione-msg"><strong>${a.label}:</strong> ${a.msg}</p>`).join('')}
     </div>` : '';
 
   const radarHTML = buildRadarChart(gestisciIndicatori);
 
   document.getElementById('game-area').innerHTML = `
-    <div style="height:100%;display:flex;flex-direction:row;align-items:stretch;padding:24px 48px;gap:40px;overflow:hidden">
+    <div class="gestisci-riepilogo-layout">
 
-      <!-- Colonna sinistra: radar -->
-      <div style="flex-shrink:0;display:flex;align-items:center;justify-content:center">
+      <div class="gestisci-riepilogo-radar">
         ${radarHTML}
       </div>
 
-      <!-- Colonna destra: testo -->
-      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:60px;padding:120px 0;overflow-y:auto">
-        <!-- Emoji + titolo + sottotitolo -->
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div class="riepilogo-emoji" style="text-align:left"><img src="${emoji}" alt=""></div>
-          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--verde-scuro);line-height:1.2">${esito}</div>
-          <div style="font-size:18px;color:var(--testo-medio);white-space:nowrap">${messaggio}</div>
+      <div class="gestisci-riepilogo-colonna">
+        <div class="gestisci-riepilogo-esito">
+          <div class="riepilogo-emoji gestisci-riepilogo-emoji"><img src="${emoji}" alt=""></div>
+          <div class="gestisci-riepilogo-titolo">${esito}</div>
+          <div class="gestisci-riepilogo-messaggio">${messaggio}</div>
         </div>
 
         ${badgesHTML}
         ${attenzioneHTML}
 
-        <!-- CTA -->
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:auto">
-          ${profiloCorrente.partecipa ? `<button class="btn-link-secondario" style="text-align:left;padding:0" onclick="mostraLeaderboard('gestisci', ${media})">🏆 Guarda la classifica</button>` : ''}
-          <div class="riepilogo-azioni" style="justify-content:flex-start">
+        <div class="gestisci-riepilogo-cta">
+          ${profiloCorrente.partecipa ? `<button class="btn-link-secondario gestisci-riepilogo-lb-btn" onclick="mostraLeaderboard('gestisci', ${media})">🏆 Guarda la classifica</button>` : ''}
+          <div class="riepilogo-azioni gestisci-riepilogo-azioni">
             <button class="btn-secondary" onclick="initGestisci()">Gioca di nuovo</button>
             <button class="btn-primary" onclick="backToSelect()">Scegli un altro gioco</button>
           </div>
@@ -1817,10 +1865,16 @@ function buildRadarChart(ind) {
   const dots = vals.map((v, i) => {
     const [x, y] = ptXY(v, i);
     const a = angles[i];
-    const offset = 18;
+    // When at (or near) 100% the dot sits on the outer ring and an outward
+    // offset would collide with the axis label — flip inward instead.
+    const atEdge = v >= 98;
+    const offset = atEdge ? -22 : 18;
     const tx = x + offset * Math.cos(a);
     const ty = y + offset * Math.sin(a);
-    const anchor = Math.cos(a) < -0.1 ? 'end' : Math.cos(a) > 0.1 ? 'start' : 'middle';
+    // Inward offset reverses the natural text-anchor direction.
+    const anchor = atEdge
+      ? (Math.cos(a) < -0.1 ? 'start' : Math.cos(a) > 0.1 ? 'end' : 'middle')
+      : (Math.cos(a) < -0.1 ? 'end'   : Math.cos(a) > 0.1 ? 'start' : 'middle');
     const color = v < 40 ? '#C0513A' : v < 60 ? '#E8A020' : 'var(--verde-scuro)';
     return `<circle cx="${x}" cy="${y}" r="6" fill="${color}"/>
       <text x="${tx}" y="${ty}" dy="5" text-anchor="${anchor}" font-size="16" font-weight="700" font-family="Fraunces,serif" fill="${color}">${v}</text>`;
@@ -1838,15 +1892,16 @@ function buildRadarChart(ind) {
 /* ══════════════════════════════════════
    GIOCO SEC 3 — IN VIAGGIO NEL DELTA
 ══════════════════════════════════════ */
-const VIAGGIO_MAPPA_B64 = "img/mappa_percorso_2.png";
+// Costante rimossa — le mappe sono ora nelle proprietà dei percorsi
 
 const VIAGGIO_PERCORSI = [
   {
     id: 'percorso1',
-    nome: "Il percorso dal fiume al mare",
+    nome: "Il percorso dell'acqua dal fiume al mare",
     desc: "Segui il grande fiume dalle sorgenti fino all'Adriatico.",
     icon: "waves",
-    mappa: "img/mappa_percorso_1.png",
+    mappa: "img/mappe/mappa_percorso_1.png",
+    mappaGioco: "img/mappe/mappa_percorso_1m.jpg",
     tappe: [
       { nome: "Grande fiume",      coords: [26.32, 25.12] },
       { nome: "Argine",            coords: [48.64, 16.75] },
@@ -1865,7 +1920,10 @@ const VIAGGIO_PERCORSI = [
       { testo: "Perché le lagune sono importanti?", opzioni: ["Offrono habitat a pesci, uccelli e piante","Servono principalmente come riserve d'acqua potabile","Proteggono le coste dalle maree impedendo ogni scambio con il mare","Sono usate solo per l'allevamento industriale dei molluschi"], corretta: 0, difficile: false, suggerimento: "Pensa agli animali che vivono in ambienti d'acqua poco profonda" },
       { testo: "Che attività tradizionale si svolge nelle valli da pesca?", opzioni: ["Pesca e allevamento ittico","Coltivazione del riso in zone allagate","Estrazione di sale marino","Navigazione commerciale lungo i canali"], corretta: 0, difficile: false, suggerimento: "Le 'valli' nel Delta non sono montagne — sono specchi d'acqua recintati" },
       { testo: "Che cosa sono gli scanni?", opzioni: ["Lingue o banchi sabbiosi costieri","Canali artificiali scavati per drenare le acque","Zone di canneto protette dalla caccia","Piccole isole abitate dai pescatori"], corretta: 0, difficile: true, suggerimento: "Pensa alla sabbia trasportata dal fiume — cosa forma quando si deposita?" },
-      { testo: "Quale equilibrio è fondamentale nel delta?", opzioni: ["Equilibrio tra fiume, mare, sedimenti e attività umane","Equilibrio tra turismo, agricoltura e industria","Equilibrio tra le maree e le precipitazioni stagionali","Equilibrio tra la flora acquatica e quella terrestre"], corretta: 0, difficile: true, suggerimento: "Il delta è un sistema complesso — non dipende da una sola forza ma da molte insieme" }
+      { testo: "Quale equilibrio è fondamentale nel delta?", opzioni: ["Equilibrio tra fiume, mare, sedimenti e attività umane","Equilibrio tra turismo, agricoltura e industria","Equilibrio tra le maree e le precipitazioni stagionali","Equilibrio tra la flora acquatica e quella terrestre"], corretta: 0, difficile: true, suggerimento: "Il delta è un sistema complesso — non dipende da una sola forza ma da molte insieme" },
+      { testo: "Che ruolo ha il Po nel modellare il territorio del Delta?", opzioni: ["Deposita sedimenti creando nuove terre emerse","Scava canyon sottomarini all'arrivo nel mare","Trasporta principalmente sabbia verso le montagne","Si allarga progressivamente assorbendo i fiumi minori"], corretta: 0, difficile: false, suggerimento: "Il Po trasporta ogni anno milioni di tonnellate di materiale — dove le lascia quando rallenta?" },
+      { testo: "Perché il Delta del Po è in continua evoluzione?", opzioni: ["Per i depositi del fiume, le maree e l'intervento umano","Perché le maree lo erodono completamente ogni anno","Per le forti piogge invernali che modificano i canali","Per l'attività vulcanica sottomarina nell'Adriatico"], corretta: 0, difficile: true, suggerimento: "Il delta è un sistema vivo — quali forze naturali e umane lo trasformano ogni giorno?" },
+      { testo: "Qual è una delle principali minacce al Delta del Po oggi?", opzioni: ["La subsidenza e l'innalzamento del livello del mare","L'eccessivo turismo nelle zone umide","La crescita incontrollata dei canneti","La costruzione di nuovi porti commerciali"], corretta: 0, difficile: true, suggerimento: "Il territorio si sta abbassando mentre il mare si alza — quali conseguenze porta questo squilibrio?" }
     ]
   },
   {
@@ -1873,7 +1931,8 @@ const VIAGGIO_PERCORSI = [
     nome: "La rotta degli uccelli migratori",
     desc: "Naviga tra lagune, valli e canneti alla scoperta della fauna del Delta.",
     icon: "rowing",
-    mappa: "img/mappa_percorso_2.png",
+    mappa: "img/mappe/mappa_percorso_2.png",
+    mappaGioco: "img/mappe/mappa_percorso_2m.jpg",
     tappe: [
       { nome: "Porto",                  coords: [21.93, 20.33] },
       { nome: "Canale",                 coords: [58.21, 35.48] },
@@ -1896,7 +1955,10 @@ const VIAGGIO_PERCORSI = [
       { testo: "Perché pesca e natura devono essere bilanciate?", opzioni: ["Per proteggere habitat e lavoro locale","Perché la pesca eccessiva migliora la qualità dell'acqua","Per aumentare il numero di specie invasive","Perché gli uccelli competono con i pescatori per il pesce"], corretta: 0, difficile: true, suggerimento: "Cosa succede se si pesca troppo o si distrugge l'habitat — chi ci rimette oltre ai pesci?" },
       { testo: "Che cosa protegge un parco naturale?", opzioni: ["Habitat, specie e paesaggi","Solo le specie in pericolo di estinzione","Principalmente le attività turistiche e ricettive","Le risorse idriche destinate all'agricoltura"], corretta: 0, difficile: false, suggerimento: "Un parco naturale non tutela una sola cosa — pensa a tutto ciò che contiene" },
       { testo: "Quale scelta aiuta la nidificazione?", opzioni: ["Limitare l'accesso in periodi delicati","Installare telecamere per monitorare i nidi da vicino","Pulire la vegetazione intorno ai nidi per facilitare l'accesso","Segnalare la presenza dei nidi ai visitatori per valorizzarli"], corretta: 0, difficile: true, suggerimento: "Il periodo della cova è il momento più delicato — cosa serve sopra ogni cosa?" },
-      { testo: "Qual è il rischio di perdere le zone umide?", opzioni: ["Gli uccelli trovano meno cibo e riparo","Le rotte migratorie si accorciano automaticamente","Gli uccelli si adattano rapidamente a nuovi habitat","Aumenta la disponibilità di zone di nidificazione alternative"], corretta: 0, difficile: true, suggerimento: "Le zone umide sono come stazioni di servizio per i migratori — cosa succede se chiudono?" }
+      { testo: "Qual è il rischio di perdere le zone umide?", opzioni: ["Gli uccelli trovano meno cibo e riparo","Le rotte migratorie si accorciano automaticamente","Gli uccelli si adattano rapidamente a nuovi habitat","Aumenta la disponibilità di zone di nidificazione alternative"], corretta: 0, difficile: true, suggerimento: "Le zone umide sono come stazioni di servizio per i migratori — cosa succede se chiudono?" },
+      { testo: "Come si chiama il fenomeno per cui gli uccelli si spostano stagionalmente tra zone diverse?", opzioni: ["Migrazione","Ibernazione","Territorialità","Dispersione"], corretta: 0, difficile: false, suggerimento: "Milioni di uccelli percorrono ogni anno migliaia di chilometri — come si chiama questo viaggio?" },
+      { testo: "Cosa mangia principalmente l'airone cenerino?", opzioni: ["Pesci, rane e piccoli roditori","Semi e bacche di piante acquatiche","Insetti e larve nei fanghi","Alghe e piante sommerse"], corretta: 0, difficile: false, suggerimento: "L'airone resta immobile per ore ai bordi dell'acqua — cosa sta aspettando?" },
+      { testo: "Che cos'è una rotta migratoria?", opzioni: ["Un percorso regolare tra zone di svernamento e riproduzione","Una zona marina vietata alla navigazione per proteggere gli uccelli","Un'area di sosta temporanea lungo le coste adriatiche","Un corridoio artificiale creato dalle riserve naturali"], corretta: 0, difficile: true, suggerimento: "Gli uccelli non volano a caso — seguono percorsi precisi tramandati di generazione in generazione" }
     ]
   },
   {
@@ -1904,7 +1966,8 @@ const VIAGGIO_PERCORSI = [
     nome: "La sfida della pesca sostenibile",
     desc: "Osserva flora, fauna e habitat naturali lungo i sentieri del Parco.",
     icon: "nature",
-    mappa: "img/mappa_percorso_3.png",
+    mappa: "img/mappe/mappa_percorso_3.png",
+    mappaGioco: "img/mappe/mappa_percorso_3m.jpg",
     tappe: [
       { nome: "Tappa 1", coords: [48.6, 85.0] },
       { nome: "Tappa 2", coords: [28.5, 66.1] },
@@ -1925,7 +1988,8 @@ const VIAGGIO_PERCORSI = [
       { testo: "Perché valorizzare il pescato locale?", opzioni: ["Sostiene lavoro, territorio e filiere corte","Perché il pesce locale costa sempre meno di quello importato","Perché evita completamente l'uso di imballaggi plastici","Perché il pesce locale è sempre più fresco di quello di mare aperto"], corretta: 0, difficile: false, suggerimento: "Comprare locale significa scegliere vicino a casa — quali effetti ha sulla comunità e sull'ambiente?" },
       { testo: "Perché alcune zone devono restare tranquille?", opzioni: ["Per proteggere specie, nidi e habitat","Per riservare le zone migliori ai pescatori professionisti","Perché il rumore delle barche spaventa i turisti","Per mantenere l'acqua pulita destinata all'uso potabile"], corretta: 0, difficile: false, suggerimento: "In alcune zone del Delta vivono o nidificano specie molto sensibili — di cosa hanno bisogno?" },
       { testo: "Come può la pesca collaborare con il turismo?", opzioni: ["Raccontando tradizioni, regole e ambiente","Vietando ai turisti l'accesso alle zone di pesca","Organizzando gare di pesca sportiva nelle aree protette","Vendendo direttamente il pescato agli hotel della costa"], corretta: 0, difficile: false, suggerimento: "I pescatori conoscono il Delta meglio di chiunque — cosa possono condividere con i visitatori?" },
-      { testo: "Qual è la strategia migliore nel lungo periodo?", opzioni: ["Pescare rispettando tempi, quantità e habitat","Investire in tecnologie per pescare sempre di più","Limitare la pesca solo alle specie più abbondanti","Affidarsi alle leggi europee senza ulteriori controlli locali"], corretta: 0, difficile: true, suggerimento: "La sostenibilità significa pensare al futuro — cosa garantisce che ci sia ancora pesce tra 20 anni?" }
+      { testo: "Qual è la strategia migliore nel lungo periodo?", opzioni: ["Pescare rispettando tempi, quantità e habitat","Investire in tecnologie per pescare sempre di più","Limitare la pesca solo alle specie più abbondanti","Affidarsi alle leggi europee senza ulteriori controlli locali"], corretta: 0, difficile: true, suggerimento: "La sostenibilità significa pensare al futuro — cosa garantisce che ci sia ancora pesce tra 20 anni?" },
+      { testo: "Qual è il ruolo dei pescatori nella tutela del Delta?", opzioni: ["Sono custodi del territorio e collaborano al monitoraggio ambientale","Non hanno responsabilità ambientali, solo produttive","Devono ridurre al minimo la loro presenza nelle zone umide","Sono i principali responsabili del degrado delle acque"], corretta: 0, difficile: false, suggerimento: "I pescatori vivono e lavorano nel Delta da generazioni — che conoscenza hanno dell'ecosistema?" }
     ]
   }
 ];
@@ -1938,6 +2002,10 @@ let viaggioAiutoUsato = false;
 let viaggioStato = 'domanda';
 let viaggioShuffledOpts = [];
 let viaggioPathOffsets = [0, 14.3, 28.6, 42.9, 57.1, 71.4, 85.7, 100];
+let viaggioErroriTappa = {}; // { tappaIdx: contatore errori } — persiste per tutta la partita
+let viaggioCompletati = new Set(); // percorsiIdx completati — persiste per tutta la sessione
+let viaggioDomandaIdx = 0;  // avanza sempre di 1, indipendente dalla posizione sulla mappa
+let _vpOffsetCache = {};    // cache { "percorsoIdx_w_h": offsets[] } — evita ricalcolo ad ogni render
 let _vpEl = null;   // SVG path element persistente per getPointAtLength
 let _vpTotal = 0;   // lunghezza totale del path
 let _vpW = 0;       // larghezza container in px
@@ -2021,19 +2089,25 @@ function initViaggioPath() {
   _vpTotal = _vpEl.getTotalLength();
   if (!_vpTotal) return;
 
-  // Arc-length offset % per ogni tappa (usa pxPts già calcolato)
-  viaggioPathOffsets = pxPts.map(([tx, ty], i) => {
-    if (i === 0) return 0;
-    if (i === pxPts.length - 1) return 100;
-    let minD = Infinity, best = 0;
-    for (let s = 0; s <= 2000; s++) {
-      const l = s / 2000 * _vpTotal;
-      const p = _vpEl.getPointAtLength(l);
-      const d = Math.hypot(p.x - tx, p.y - ty);
-      if (d < minD) { minD = d; best = l; }
-    }
-    return (best / _vpTotal) * 100;
-  });
+  // Arc-length offset % per ogni tappa — usa cache per evitare 16k chiamate getPointAtLength ad ogni render
+  const cacheKey = `${viaggioPercorsoIdx}_${w}_${h}`;
+  if (_vpOffsetCache[cacheKey]) {
+    viaggioPathOffsets = _vpOffsetCache[cacheKey];
+  } else {
+    viaggioPathOffsets = pxPts.map(([tx, ty], i) => {
+      if (i === 0) return 0;
+      if (i === pxPts.length - 1) return 100;
+      let minD = Infinity, best = 0;
+      for (let s = 0; s <= 2000; s++) {
+        const l = s / 2000 * _vpTotal;
+        const p = _vpEl.getPointAtLength(l);
+        const d = Math.hypot(p.x - tx, p.y - ty);
+        if (d < minD) { minD = d; best = l; }
+      }
+      return (best / _vpTotal) * 100;
+    });
+    _vpOffsetCache[cacheKey] = viaggioPathOffsets;
+  }
 
   // Posiziona il segnalino immediatamente (senza transizione CSS)
   const seg = document.getElementById('viaggio-seg');
@@ -2050,16 +2124,21 @@ function initViaggio() {
 }
 
 function renderViaggioLista() {
-  const cardsHTML = VIAGGIO_PERCORSI.map((p, i) => `
-    <div class="percorso-card" onclick="avviaPercorso(${i})">
-      <div class="percorso-card-img-wrap"><img src="${p.mappa}" alt="${p.nome}"></div>
+  const cardsHTML = VIAGGIO_PERCORSI.map((p, i) => {
+    const completata = viaggioCompletati.has(i);
+    return `
+    <div class="percorso-card${completata ? ' completata' : ''}" onclick="avviaPercorso(${i})">
+      <div class="percorso-card-img-wrap"><img src="${p.mappa}" alt="${p.nome}">
+        ${completata ? '<div class="percorso-card-completata-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Completato</div>' : ''}
+      </div>
       <div class="percorso-card-body">
-        <div class="percorso-card-num">Percorso ${i + 1}</div>
+        <div class="percorso-card-num">${completata ? '<span class="percorso-card-num-completata">Completato</span>' : `Percorso ${i + 1}`}</div>
         <div class="percorso-card-title">${p.nome}</div>
         <div class="percorso-card-desc">${p.desc}</div>
-        <div class="card-cta">Inizia →</div>
+        <div class="card-cta">${completata ? 'Rigioca →' : 'Inizia →'}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   document.getElementById('game-area').innerHTML = `
     <div class="percorso-lista-wrapper">
@@ -2073,16 +2152,18 @@ function avviaPercorso(idx) {
   viaggioPercorsoIdx = idx;
   viaggioPosTappa = 0;
   viaggioTurnoCorrente = 0;
+  viaggioDomandaIdx = 0;
   viaggioAiutoUsato = false;
   viaggioStato = 'domanda';
+  viaggioErroriTappa = {};
   renderViaggioGioco();
 }
 
 function renderViaggioGioco() {
   const percorso = VIAGGIO_PERCORSI[viaggioPercorsoIdx];
-  const domanda = percorso.domande[viaggioPosTappa];
+  const domanda = percorso.domande[viaggioDomandaIdx];
   const lettere = ['A', 'B', 'C', 'D'];
-  const turniRimasti = VIAGGIO_MAX_TURNI - viaggioTurnoCorrente;
+  const turniRimasti = percorso.domande.length - viaggioDomandaIdx;
 
   const idxs = [0,1,2,3];
   for (let i = 3; i > 0; i--) {
@@ -2112,7 +2193,7 @@ function renderViaggioGioco() {
   document.getElementById('game-area').innerHTML = `
     <div class="viaggio-outer">
       <div class="viaggio-mappa-col">
-        <img class="viaggio-mappa-img" src="${percorso.mappa}" alt="Mappa Delta">
+        <img class="viaggio-mappa-img" src="${percorso.mappaGioco}" alt="Mappa Delta">
         <svg id="viaggio-percorso-svg" class="viaggio-percorso-svg" xmlns="http://www.w3.org/2000/svg"></svg>
         ${tappeHTML}
         <div class="viaggio-segnalino" id="viaggio-seg" style="left:${pos.coords[0]}%;top:${pos.coords[1]}%">
@@ -2128,7 +2209,7 @@ function renderViaggioGioco() {
         </div>
         <div class="viaggio-turni-badge">
           <span class="viaggio-turni-num">${turniRimasti}</span>
-          turni rimasti
+          tentativi rimasti
         </div>
       </div>
       <div class="viaggio-domanda-col">
@@ -2150,7 +2231,7 @@ function renderViaggioGioco() {
 }
 
 function viaggioMostraAiuto() {
-  const domanda = VIAGGIO_PERCORSI[viaggioPercorsoIdx].domande[viaggioPosTappa];
+  const domanda = VIAGGIO_PERCORSI[viaggioPercorsoIdx].domande[viaggioDomandaIdx];
   viaggioAiutoUsato = true;
   suonaSeleziona();
   document.getElementById('viaggio-aiuto-btn').disabled = true;
@@ -2162,9 +2243,10 @@ function viaggioRispondi(idx, correttaIdx) {
   if (viaggioStato === 'feedback') return;
   viaggioStato = 'feedback';
   viaggioTurnoCorrente++;
+  viaggioDomandaIdx++;
 
   const percorso = VIAGGIO_PERCORSI[viaggioPercorsoIdx];
-  const domanda = percorso.domande[viaggioPosTappa];
+  const domanda = percorso.domande[viaggioDomandaIdx - 1]; // -1 perché è già stato incrementato
   const corretta = idx === correttaIdx;
   const lettere = ['A','B','C','D'];
 
@@ -2177,38 +2259,48 @@ function viaggioRispondi(idx, correttaIdx) {
 
   let avanza = 0;
   let feedbackTitolo, feedbackTesto, feedbackCls;
+  const correttaTesto = domanda.opzioni[domanda.corretta];
 
   if (corretta) {
     suonaCorretto();
     avanza = 1;
-    feedbackTitolo = '✓ Risposta esatta!';
-    feedbackTesto = 'Avanzi di 1 tappa.';
+    const ultimaTappa = (viaggioPosTappa + 1) >= percorso.tappe.length - 1;
+    feedbackTitolo = ultimaTappa ? 'Risposta esatta! Hai completato il percorso!' : 'Risposta esatta! Avanzi di una casella.';
+    feedbackTesto = '';
     feedbackCls = 'pos';
   } else {
     suonaSbagliato();
-    if (domanda.difficile && viaggioPosTappa > 0) {
-      avanza = -1;
-      feedbackTitolo = '✕ Risposta sbagliata.';
-      feedbackTesto = 'Domanda difficile — torni indietro di 1 tappa.';
+    const errori = (viaggioErroriTappa[viaggioPosTappa] || 0) + 1;
+    viaggioErroriTappa[viaggioPosTappa] = errori;
+    avanza = -(errori - 1);
+    if (avanza === 0) {
+      feedbackTitolo = 'Risposta sbagliata. Resti fermo.';
     } else {
-      avanza = 0;
-      feedbackTitolo = '✕ Risposta sbagliata.';
-      feedbackTesto = 'Resti fermo. Riprova alla prossima!';
+      const tappe = Math.abs(avanza);
+      feedbackTitolo = `Risposta sbagliata. Torni indietro di ${tappe} ${tappe === 1 ? 'tappa' : 'tappe'}.`;
     }
+    feedbackTesto = '';
     feedbackCls = 'neg';
   }
 
   const nuovaPosizione = Math.max(0, Math.min(percorso.tappe.length - 1, viaggioPosTappa + avanza));
-  const turniRimasti = VIAGGIO_MAX_TURNI - viaggioTurnoCorrente;
-  const arrivatoAllArrivo = nuovaPosizione === percorso.tappe.length - 1 && corretta;
-  const finitiTurni = turniRimasti <= 0;
+  const arrivatoAllArrivo = corretta && nuovaPosizione === percorso.tappe.length - 1;
+  const finitiTurni = !arrivatoAllArrivo && viaggioDomandaIdx >= percorso.domande.length;
+
+  // Aggiorna subito il contatore tentativi senza aspettare "Continua"
+  const turniNumEl = document.querySelector('.viaggio-turni-num');
+  if (turniNumEl) turniNumEl.textContent = percorso.domande.length - viaggioDomandaIdx;
+
+  const feedbackIcon = corretta
+    ? `<div class="tick-wrap"><svg class="tick-svg" viewBox="0 0 52 52"><circle class="tick-circle" cx="26" cy="26" r="23"/><path class="tick-check" d="M14 26 l8 8 l16 -16"/></svg></div>`
+    : `<div class="sad-wrap"><svg class="sad-svg" viewBox="0 0 52 52"><circle class="sad-circle" cx="26" cy="26" r="23"/><circle class="sad-eye-l" cx="18" cy="22" r="2.5"/><circle class="sad-eye-r" cx="34" cy="22" r="2.5"/><path class="sad-mouth" d="M17 34 Q26 26 35 34"/></svg></div>`;
 
   const fbArea = document.getElementById('viaggio-feedback-area');
   if (fbArea) fbArea.innerHTML = `
     <div class="viaggio-feedback ${feedbackCls}">
+      <div class="viaggio-feedback-icon">${feedbackIcon}</div>
       <div class="viaggio-feedback-testo">
-        <strong>${feedbackTitolo}</strong>
-        ${feedbackTesto}
+        <strong class="viaggio-feedback-titolo">${feedbackTitolo}</strong>
       </div>
     </div>`;
 
@@ -2216,7 +2308,7 @@ function viaggioRispondi(idx, correttaIdx) {
   if (arrivatoAllArrivo) {
     suonaVittoria();
     setTimeout(esplodiCoriandoli, 300);
-    avantiEl.innerHTML = `<button class="btn-primary" onclick="mostraRiepilogoViaggio(true, ${viaggioTurnoCorrente}, ${nuovaPosizione})"><img src="img/ic_feedback/feedback-11-arrivo-ultima-tappa.png" style="width:20px;height:20px;vertical-align:middle;margin-right:6px" alt=""> Arrivo!</button>`;
+    avantiEl.innerHTML = `<button class="btn-primary" onclick="mostraRiepilogoViaggio(true, ${viaggioTurnoCorrente}, ${nuovaPosizione})">Guarda il risultato →</button>`;
   } else if (finitiTurni) {
     avantiEl.innerHTML = `<button class="btn-primary" onclick="mostraRiepilogoViaggio(false, ${viaggioTurnoCorrente}, ${nuovaPosizione})">Fine del percorso →</button>`;
   } else {
@@ -2245,6 +2337,7 @@ function viaggioProssimo(nuovaPosizione) {
 }
 
 async function mostraRiepilogoViaggio(completato, turniUsati, tappeIdx) {
+  if (completato) viaggioCompletati.add(viaggioPercorsoIdx);
   const percorso = VIAGGIO_PERCORSI[viaggioPercorsoIdx];
   const tappeRaggiunte = tappeIdx + 1;
   const punteggio = Math.round((tappeRaggiunte / percorso.tappe.length) * 100);
@@ -2286,8 +2379,8 @@ const GIOCHI_PRIMARIA = [
 
 const GIOCHI_SECONDARIA = [
   { tipo: 'quiz-sec', icon: 'timer', img: 'img/ic_giochi/ic_secondaria_gioco_1.png', num: 'Gioco 1', titolo: 'Quiz a Tempo', desc: 'Rispondi a 10 domande in 20 secondi ciascuna. Più sei veloce, più punti guadagni!', leaderboard: 'quiz-sec' },
-  { tipo: 'gestisci', icon: 'eco', img: 'img/ic_giochi/ic_secondaria_gioco_2.png', num: 'Gioco 2', titolo: 'Gestisci il Delta', desc: 'Prendi decisioni difficili e scopri come le tue scelte influenzano natura, economia e comunità.', leaderboard: 'gestisci' },
-  { tipo: 'viaggio', icon: 'explore', img: 'img/ic_giochi/ic_secondaria_gioco_3.png', num: 'Gioco 3', titolo: 'In viaggio nel Delta', desc: 'Avanza lungo il Delta rispondendo alle domande. Più sei preciso, più lontano arrivi!', leaderboard: 'viaggio' },
+  { tipo: 'viaggio', icon: 'explore', img: 'img/ic_giochi/ic_secondaria_gioco_2.png', num: 'Gioco 2', titolo: 'In viaggio nel Delta', desc: 'Avanza lungo il Delta rispondendo alle domande. Più sei preciso, più lontano arrivi!', leaderboard: 'viaggio' },
+  { tipo: 'gestisci', icon: 'eco', img: 'img/ic_giochi/ic_secondaria_gioco_3.png', num: 'Gioco 3', titolo: 'Gestisci il Delta', desc: 'Prendi decisioni difficili e scopri come le tue scelte influenzano natura, economia e comunità.', leaderboard: 'gestisci' },
 ];
 
 
@@ -2354,7 +2447,7 @@ const QUIZ_DOMANDE = [
     opzioni: ["Po", "Adige", "Reno", "Brenta"],
     corretta: 0,
     foto: "img/primaria_1/1_01_fiume_po.png",
-    fotoCaption: "Il Delta del Po visto dall'alto"
+    fotoCaption: "Il fiume Po attraversa la città di Torino"
   },
   {
     domanda: "Quale uccello rosa si può vedere nelle zone umide del Delta?",
@@ -2442,12 +2535,13 @@ const QUIZ_DOMANDE = [
     layoutFoto: '2x2',
     corretta: 1,
     foto: "img/primaria_1/1_09_canneti.png",
-    fotoCaption: "Uccelli tra canneti e zone umide"
+    fotoCaption: "Uccelli nel loro habitat composto da zone umide"
   },
   {
     domanda: "Quale mollusco viene allevato nelle lagune del Delta?",
-    opzioni: ["Ostrica", "Patella", "Tellina", "Chiocciola di mare"],
+    opzioni: ["Cozze", "Patella", "Tellina", "Chiocciola di mare"],
     opzioniFoto: ["img/primaria_1/10-Ostrica.png","img/primaria_1/10-Patella.png","img/primaria_1/10-Tellina.png","img/primaria_1/10-Chiocciola.png"],
+    layoutFoto: '2x2',
     corretta: 0,
     foto: "img/primaria_1/1_10_cozza.png",
     fotoCaption: "Le cozze allevate nelle lagune"

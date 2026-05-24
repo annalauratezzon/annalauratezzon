@@ -15,15 +15,16 @@
 <!-- ══ HOME ══ -->
 <div id="screen-home" class="screen active">
   <div class="home-left">
-    <div class="home-eyebrow">Museo del Delta del Po</div>
+    <img class="home-logo" src="img/loghi.png" alt="Comune">
     <div class="home-title">Esplora<br>il Delta</div>
     <div class="home-subtitle">Giochi interattivi<br>per scoprire la natura e l'ecosistema del Delta</div>
+    <div class="home-copyright">© 2026 Te.Ma Progetti, tutti i diritti riservati. — <button class="home-crediti-btn" onclick="apriCrediti()">Crediti</button></div>
   </div>
   <div class="home-right">
     <div class="age-card" onclick="goToSelect('primaria')">
       <img class="age-card-icon" src="img/ic_primaria.png" alt="Scuola Primaria">
       <div class="age-card-text">
-        <div class="age-card-label">Età consigliata6-10 anni</div>
+        <div class="age-card-label">Età consigliata: 6-10 anni</div>
         <div class="age-card-title">Scuola primaria</div>
         <div class="age-card-desc">Quiz a risposta multipla, abbinamenti e sequenze da scoprire</div>
       </div>
@@ -178,6 +179,35 @@
   </div>
 </div>
 
+
+<!-- ══ CREDITI DIALOG ══ -->
+<div class="crediti-overlay" id="crediti-overlay" onclick="chiudiCrediti(event)">
+  <div class="crediti-dialog">
+    <button class="crediti-close" onclick="chiudiCrediti()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="crediti-label">Museo del Delta del Po</div>
+    <div class="crediti-titolo">Crediti</div>
+    <ul class="crediti-lista">
+      <li><span class="crediti-ruolo">Ideazione e direzione scientifica</span><span class="crediti-nome">Maurizio Tezzon</span></li>
+      <li><span class="crediti-ruolo">Progettazione e sviluppo</span><span class="crediti-nome">Annalaura Tezzon</span></li>
+      <li><span class="crediti-ruolo">Fotografia ed elaborazione fotografica</span><span class="crediti-nome">Mauro Tezzon</span></li>
+    </ul>
+    <div class="crediti-copyright">© 2026 Te.Ma Progetti, tutti i diritti riservati.</div>
+  </div>
+</div>
+
+<!-- ══ AIUTO GESTISCI ══ -->
+<div class="gestisci-aiuto-overlay" id="gestisci-aiuto-overlay" onclick="chiudiAiutoGestisci(event)">
+  <div class="gestisci-aiuto-dialog">
+    <button class="gestisci-aiuto-close" onclick="document.getElementById('gestisci-aiuto-overlay').classList.remove('visible')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="gestisci-aiuto-label">Lo sapevi?</div>
+    <div class="gestisci-aiuto-titolo" id="gestisci-aiuto-titolo"></div>
+    <div class="gestisci-aiuto-testo" id="gestisci-aiuto-testo"></div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 

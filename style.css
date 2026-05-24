@@ -83,6 +83,15 @@
     color: var(--acqua-chiara);
     margin-bottom: 20px;
   }
+  .home-logo {
+    position: absolute;
+    top: 40px;
+    left: 52px;
+    height: 240px;
+    width: auto;
+    object-fit: contain;
+  }
+
 
   .home-title {
     font-family: 'Fraunces', serif;
@@ -102,6 +111,28 @@
     line-height: 1.5;
     margin-bottom: 0;
   }
+
+  .home-copyright {
+    position: absolute;
+    bottom: 28px;
+    left: 52px;
+    font-size: 14px;
+    color: rgba(255,255,255,.4);
+    letter-spacing: .04em;
+  }
+  .home-crediti-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 12px;
+    color: rgba(255,255,255,.55);
+    letter-spacing: .04em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color .15s;
+  }
+  .home-crediti-btn:hover { color: rgba(255,255,255,.85); }
 
   .home-right {
     flex: 1;
@@ -258,6 +289,14 @@
     font-size: 16px;
     color: var(--grigio-medio);
   }
+  .select-intro-hint {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--testo-medio);
+    margin-top: 6px;
+  }
   .select-cards-grid {
     display: flex;
     gap: 28px;
@@ -354,6 +393,90 @@
   /* ══════════════════════════════════════
      ISTRUZIONI DIALOG
   ══════════════════════════════════════ */
+  /* ── Crediti dialog ── */
+  .crediti-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .crediti-overlay.aperta { display: flex; animation: fadeIn .2s ease; }
+  .crediti-dialog {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    max-width: 460px;
+    width: 90%;
+    position: relative;
+  }
+  .crediti-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--grigio-medio);
+    padding: 4px;
+    line-height: 1;
+    transition: color .15s;
+  }
+  .crediti-close:hover { color: var(--verde-scuro); }
+  .crediti-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--acquamarina);
+    margin-bottom: 8px;
+  }
+  .crediti-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+    margin-bottom: 28px;
+  }
+  .crediti-lista {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .crediti-lista li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--sabbia);
+  }
+  .crediti-lista li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .crediti-ruolo {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--grigio-medio);
+  }
+  .crediti-nome {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--verde-scuro);
+  }
+  .crediti-copyright {
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--grigio-medio);
+    letter-spacing: .04em;
+  }
+
   .istruzioni-overlay {
     display: none;
     position: fixed;
@@ -393,7 +516,7 @@
     font-size: 24px;
     font-weight: 700;
     color: var(--verde-scuro);
-    margin-bottom: 6px;
+    margin-bottom: 24px;
   }
   .istruzioni-gioco {
     font-size: 12px;
@@ -401,7 +524,6 @@
     letter-spacing: .09em;
     text-transform: uppercase;
     color: var(--acquamarina);
-    margin-bottom: 24px;
   }
   .istruzioni-steps {
     display: flex;
@@ -534,6 +656,41 @@
     font-size: 16px;
     color: var(--grigio-medio);
     line-height: 1.5;
+  }
+
+  /* Percorso card — stato completato */
+  .percorso-card.completata {
+    border-color: #3A8C5C;
+    background: #F4FBF7;
+  }
+  .percorso-card.completata:hover {
+    border-color: #2A7A4F;
+    box-shadow: 0 8px 32px rgba(58,140,92,.15);
+  }
+  .percorso-card.completata .percorso-card-img-wrap {
+    position: relative;
+  }
+  .percorso-card-completata-badge {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    background: #3A8C5C;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    border-radius: 20px;
+    padding: 4px 10px 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .percorso-card-num-completata {
+    color: #3A8C5C;
+  }
+  .percorso-card.completata .card-cta {
+    color: #3A8C5C;
   }
 
   /* ══════════════════════════════════════
@@ -712,7 +869,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px 0;
+    padding: 20px 180px;
   }
   .quiz-bottom {
     display: flex;
@@ -826,15 +983,15 @@
   }
   .quiz-foto-grande {
     width: 100%;
-    max-width: 1200px;
-    height: 450px;
+    max-width: 1000px;
+    height: 500px;
     object-fit: cover;
     border-radius: var(--radius-lg);
     background: var(--sabbia-chiara);
     display: block;
   }
   .quiz-foto-caption-grande {
-    font-size: 13px;
+    font-size: 20px;
     color: var(--testo-medio);
     text-align: center;
     font-style: italic;
@@ -858,9 +1015,9 @@
   }
 
   .quiz-opzioni {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-top: 4px;
   }
 
@@ -995,8 +1152,8 @@
     animation: emojiBounce .7s cubic-bezier(.36,.07,.19,.97) both;
   }
   .riepilogo-emoji img {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
     display: block;
   }
@@ -1030,11 +1187,11 @@
     text-align: center;
   }
   .riepilogo-score-label {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--acquamarina);
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--testo-medio);
     text-align: center;
     margin-top: 8px;
   }
@@ -1058,7 +1215,7 @@
   .riepilogo-azioni {
     display: flex;
     gap: 16px;
-    margin-top: 8px;
+    margin-top: 24px;
   }
 
     /* ── TICK ANIMATO ── */
@@ -1144,6 +1301,39 @@
   }
   @keyframes sadEyes {
     to { opacity: 1; }
+  }
+
+  /* ── WARN ICON ── */
+  .warn-wrap {
+    width: 52px; height: 52px;
+    flex-shrink: 0;
+  }
+  .warn-svg {
+    width: 52px; height: 52px;
+    overflow: visible;
+    animation: sadPop .5s cubic-bezier(.36,.07,.19,.97) both;
+  }
+  .warn-triangle {
+    fill: none;
+    stroke: #B8860B;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-dasharray: 130;
+    stroke-dashoffset: 130;
+    animation: tickCircle .45s ease forwards;
+  }
+  .warn-excl {
+    stroke: #B8860B;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 14;
+    stroke-dashoffset: 14;
+    animation: tickCheck .3s ease .4s forwards;
+  }
+  .warn-dot {
+    fill: #B8860B;
+    opacity: 0;
+    animation: sadEyes .2s ease .65s forwards;
   }
 
   /* ── TOAST ABBINAMENTO ── */
@@ -1440,7 +1630,6 @@
     font-weight: 600;
     color: var(--verde-scuro);
     line-height: 1.25;
-    flex: 1;
   }
   .seq-card-stato {
     display: flex;
@@ -1453,11 +1642,10 @@
   .seq-card-stato.fatta { color: #3A8C5C; }
   .seq-card-img-wrap {
     width: 100%;
-    flex: 1;
+    aspect-ratio: 1;
     border-radius: var(--radius-sm);
     overflow: hidden;
-    min-height: 0;
-    margin-bottom: 4px;
+    margin-top: auto;
   }
   .seq-card-img {
     width: 100%;
@@ -1711,7 +1899,7 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: right;
     min-height: 44px;
   }
 
@@ -1740,13 +1928,13 @@
   }
   .qs-timer-circle-wrap {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 124px;
+    height: 124px;
     flex-shrink: 0;
   }
   .qs-timer-svg {
-    width: 100px;
-    height: 100px;
+    width: 124px;
+    height: 124px;
     transform: rotate(-90deg);
   }
   .qs-timer-track {
@@ -2260,10 +2448,10 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 16px 250px 24px;
+    justify-content: flex-start;
+    padding: 80px 450px;
     overflow: hidden;
-    gap: 0;
+    gap: 80px;
   }
   .gestisci-top {
     display: flex;
@@ -2274,6 +2462,8 @@
   .gestisci-middle {
     flex-shrink: 0;
     padding: 12px 0;
+    display: flex;
+    flex-direction: column;
   }
   .gestisci-bottom {
     flex-shrink: 0;
@@ -2283,21 +2473,126 @@
     justify-content: flex-end;
     gap: 8px;
   }
+  .gestisci-problema-box {
+    background: rgba(168, 206, 206, 0.22);
+    border: 1.5px solid var(--acqua-chiara);
+    border-radius: var(--radius-md);
+    padding: 20px 32px 24px;
+    text-align: center;
+  }
+  .gestisci-problema-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--acquamarina);
+    margin-bottom: 24px;
+  }
   .gestisci-situazione {
     font-family: 'Fraunces', serif;
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 500;
     color: var(--verde-scuro);
     text-align: center;
-    line-height: 1.25;
+    line-height: 1.3;
   }
   .gestisci-sottotitolo {
+    font-family: 'DM Sans', sans-serif;
     font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--acquamarina);
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .gestisci-aiuto-hint {
+    margin-top: 14px;
+    font-size: 14px;
     color: var(--testo-medio);
     text-align: center;
-    font-style: italic;
-    margin-top: 12px;
   }
+  .gestisci-aiuto-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--acquamarina);
+    text-decoration: underline;
+    text-decoration-color: rgba(91,158,154,.4);
+    text-underline-offset: 3px;
+    transition: color .15s;
+  }
+  .gestisci-aiuto-link:hover { color: var(--verde-scuro); }
+
+  /* Dialog overlay */
+  .gestisci-aiuto-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,40,40,.45);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+  }
+  .gestisci-aiuto-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .gestisci-aiuto-dialog {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    max-width: 560px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,.18);
+  }
+  .gestisci-aiuto-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--testo-medio);
+    padding: 4px;
+    line-height: 1;
+    transition: color .15s;
+  }
+  .gestisci-aiuto-close:hover { color: var(--verde-scuro); }
+  .gestisci-aiuto-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--acquamarina);
+    margin-bottom: 10px;
+  }
+  .gestisci-aiuto-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--verde-scuro);
+    line-height: 1.25;
+    margin-bottom: 20px;
+  }
+  .gestisci-aiuto-testo {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--testo-scuro);
+  }
+  .gestisci-aiuto-testo p { margin: 0 0 14px; }
+  .gestisci-aiuto-testo p:last-child { margin-bottom: 0; }
+
   .gestisci-scelte {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -2361,6 +2656,10 @@
   .gestisci-feedback-box.mixed-feedback {
     background: white;
     border: 1px solid var(--sabbia);
+  }
+  .gestisci-feedback-box.warn-feedback {
+    background: #FDF8EC;
+    border: 1px solid #E8CF80;
   }
   .gestisci-feedback-icon { flex-shrink: 0; margin-top: 2px; }
   .gestisci-feedback-content {
@@ -2430,7 +2729,7 @@
     font-size: 32px;
     font-weight: 700;
     color: var(--verde-scuro);
-    text-align: center;
+    text-align: left;
   }
   .gestisci-riepilogo-desc {
     font-size: 18px;
@@ -2466,6 +2765,80 @@
     font-weight: 700;
     color: var(--verde-scuro);
   }
+  /* ── RIEPILOGO GESTISCI ── */
+  .gestisci-riepilogo-layout {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding: 24px 48px;
+    gap: 40px;
+    overflow: hidden;
+  }
+  .gestisci-riepilogo-radar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gestisci-riepilogo-colonna {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    padding: 120px 0;
+    overflow-y: auto;
+  }
+  .gestisci-riepilogo-esito {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .gestisci-riepilogo-emoji {
+    text-align: left;
+  }
+  .gestisci-riepilogo-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--verde-scuro);
+    line-height: 1.2;
+  }
+  .gestisci-riepilogo-messaggio {
+    font-size: 20px;
+    color: var(--testo-medio);
+  }
+  .gestisci-riepilogo-sezione {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .gestisci-riepilogo-sezione-titolo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--testo-scuro);
+  }
+  .gestisci-riepilogo-attenzione-msg {
+    font-size: 16px;
+    color: var(--testo-scuro);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .gestisci-riepilogo-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+  }
+  .gestisci-riepilogo-lb-btn {
+    text-align: left;
+    padding: 0;
+  }
+  .gestisci-riepilogo-azioni {
+    justify-content: flex-start;
+  }
+
   .gestisci-badges {
     display: flex;
     gap: 10px;
@@ -2473,18 +2846,13 @@
     justify-content: flex-start;
   }
   .gestisci-badge {
-    background: var(--sabbia-chiara);
-    border-radius: var(--radius-md);
-    padding: 10px 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--testo-scuro);
     animation: fadeUp .3s ease;
   }
-  .gestisci-badge-icon { font-size: 20px; }
+  .gestisci-badge img {
+    height: 180px;
+    width: auto;
+    display: block;
+  }
 
   /* ══════════════════════════════════════
      GIOCO SEC 3 — IN VIAGGIO NEL DELTA
@@ -2662,19 +3030,28 @@
     border-radius: var(--radius-md);
     padding: 14px 18px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
     animation: fadeUp .3s ease;
   }
   .viaggio-feedback.pos { background: #EDF7F1; border: 1px solid #B6DEC8; }
   .viaggio-feedback.neg { background: #FDF0ED; border: 1px solid #EAC0B4; }
+  .viaggio-feedback-icon { flex-shrink: 0; margin-top: 2px; }
   .viaggio-feedback-testo {
     font-size: 15px;
     color: var(--testo-scuro);
-    line-height: 1.4;
+    line-height: 1.5;
     flex: 1;
   }
-  .viaggio-feedback-testo strong { display: block; margin-bottom: 2px; font-size: 16px; }
+  .viaggio-feedback-titolo {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .viaggio-feedback.pos .viaggio-feedback-titolo { color: #2A7A4F; }
+  .viaggio-feedback.neg .viaggio-feedback-titolo { color: #C0513A; }
 
   .viaggio-azioni {
     display: flex;

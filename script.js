@@ -1223,13 +1223,97 @@ function entraInClassifica() {
   if (selectChip) selectChip.style.display = 'flex';
   if (selectChipAv) selectChipAv.innerHTML = `<img src="${profiloCorrente.avatar || 'img/avatar/teen_avatar_01.png'}" style="width:100%;height:100%;object-fit:cover;">`;
   if (selectChipNm) selectChipNm.textContent = profiloCorrente.nome;
+  avviaTimerInattivita();
   showScreen('screen-select');
 }
 
 function saltaClassifica() {
   profiloCorrente = { nome: null, avatar: null, partecipa: false, _saltato: true };
+  fermaTimerInattivita();
   showScreen('screen-select');
 }
+
+/* ══════════════════════════════════════
+   INATTIVITÀ / AUTO-LOGOUT
+══════════════════════════════════════ */
+const INATTIVITA_MS = 4 * 60 * 1000; // 4 minuti
+const INATTIVITA_COUNTDOWN = 30;      // secondi prima del reset
+let _inattivitaTimer = null;
+let _countdownTimer = null;
+let _countdownRimanente = INATTIVITA_COUNTDOWN;
+
+function avviaTimerInattivita() {
+  fermaTimerInattivita();
+  if (!profiloCorrente.partecipa) return;
+  _inattivitaTimer = setTimeout(mostraDialogInattivita, INATTIVITA_MS);
+}
+
+function fermaTimerInattivita() {
+  clearTimeout(_inattivitaTimer);
+  clearInterval(_countdownTimer);
+  _inattivitaTimer = null;
+  _countdownTimer = null;
+}
+
+function mostraDialogInattivita() {
+  if (!profiloCorrente.partecipa) return;
+  _countdownRimanente = INATTIVITA_COUNTDOWN;
+  const el = document.getElementById('inattivita-countdown');
+  if (el) el.textContent = _countdownRimanente;
+  document.getElementById('inattivita-overlay').classList.add('aperta');
+  _countdownTimer = setInterval(() => {
+    _countdownRimanente--;
+    const el = document.getElementById('inattivita-countdown');
+    if (el) el.textContent = _countdownRimanente;
+    if (_countdownRimanente <= 0) {
+      clearInterval(_countdownTimer);
+      eseguiLogout();
+    }
+  }, 1000);
+}
+
+function resetInattivita() {
+  document.getElementById('inattivita-overlay').classList.remove('aperta');
+  clearInterval(_countdownTimer);
+  avviaTimerInattivita();
+}
+
+function eseguiLogout() {
+  fermaTimerInattivita();
+  document.getElementById('inattivita-overlay').classList.remove('aperta');
+  document.getElementById('logout-overlay').classList.remove('aperta');
+  profiloCorrente = { nome: null, avatar: null, partecipa: false };
+  giochiCompletati = new Set();
+  // Resetta la schermata profilo per il prossimo giocatore
+  const nomeInput = document.getElementById('profilo-nome');
+  if (nomeInput) nomeInput.value = '';
+  document.querySelectorAll('.profilo-avatar.selezionato').forEach(a => a.classList.remove('selezionato'));
+  const btnEntra = document.getElementById('btn-entra');
+  if (btnEntra) btnEntra.disabled = false;
+  showScreen('screen-profilo');
+}
+
+function apriLogoutConfirm() {
+  const nome = profiloCorrente.nome || 'questo giocatore';
+  document.getElementById('logout-testo').innerHTML =
+    `Stai per concludere la sessione di <strong>${nome}</strong>. Il prossimo giocatore potrà scegliere il suo nickname e avatar.`;
+  document.getElementById('logout-overlay').classList.add('aperta');
+}
+
+function chiudiLogoutConfirm(e) {
+  if (e && e.target !== document.getElementById('logout-overlay')) return;
+  document.getElementById('logout-overlay').classList.remove('aperta');
+}
+
+// Resetta il timer ad ogni interazione utente
+['click', 'touchstart', 'keydown'].forEach(ev => {
+  document.addEventListener(ev, () => {
+    if (profiloCorrente.partecipa &&
+        !document.getElementById('inattivita-overlay').classList.contains('aperta')) {
+      avviaTimerInattivita();
+    }
+  }, { passive: true });
+});
 
 async function salvaInClassifica(gioco, punti) {
   if (!profiloCorrente.partecipa) return;
@@ -2433,6 +2517,9 @@ function aggiornaFasciaBadge() {
   const chip = document.getElementById('profilo-chip');
   const av = document.getElementById('chip-avatar');
   const nm = document.getElementById('chip-nome');
+  const velChip = document.getElementById('velocita-profilo-chip');
+  const velAv = document.getElementById('velocita-chip-avatar');
+  const velNm = document.getElementById('velocita-chip-nome');
 
   // Badge sempre visibile
   if (badge) {
@@ -2440,13 +2527,18 @@ function aggiornaFasciaBadge() {
     badge.textContent = currentFascia === 'primaria' ? 'Primaria · 6–10 anni' : 'Secondaria · 11–14 anni';
   }
 
-  // Chip accanto al badge solo se secondaria e partecipa
+  // Chip in screen-game e screen-velocita: solo se secondaria e partecipa
   if (currentFascia === 'secondaria' && profiloCorrente.partecipa) {
+    const avatarSrc = profiloCorrente.avatar || 'img/avatar/teen_avatar_01.png';
     if (chip) chip.style.display = 'flex';
-    if (av) av.innerHTML = `<img src="${profiloCorrente.avatar || 'img/avatar/teen_avatar_01.png'}" style="width:100%;height:100%;object-fit:cover;">`;
+    if (av) av.innerHTML = `<img src="${avatarSrc}" style="width:100%;height:100%;object-fit:cover;">`;
     if (nm) nm.textContent = profiloCorrente.nome;
+    if (velChip) velChip.style.display = 'flex';
+    if (velAv) velAv.innerHTML = `<img src="${avatarSrc}" style="width:100%;height:100%;object-fit:cover;">`;
+    if (velNm) velNm.textContent = profiloCorrente.nome;
   } else {
     if (chip) chip.style.display = 'none';
+    if (velChip) velChip.style.display = 'none';
   }
 }
 

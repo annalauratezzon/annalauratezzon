@@ -946,6 +946,122 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .profilo-chip-logout {
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .profilo-chip-logout:hover { background: rgba(255,255,255,.2); }
+  .profilo-chip-logout-icon {
+    display: flex;
+    align-items: center;
+    margin-left: 2px;
+    color: white
+  }
+
+  /* ── Inattività dialog ── */
+  .inattivita-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+  }
+  .inattivita-overlay.aperta { display: flex; animation: fadeIn .3s ease; }
+  .inattivita-dialog {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    max-width: 440px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  .inattivita-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: #FDF8EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #B8860B;
+    flex-shrink: 0;
+  }
+  .inattivita-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+  }
+  .inattivita-testo {
+    font-size: 16px;
+    color: var(--grigio-medio);
+    line-height: 1.6;
+  }
+  .inattivita-testo strong { color: var(--verde-scuro); }
+  .inattivita-azioni {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    width: 100%;
+  }
+  .inattivita-azioni .btn-secondary,
+  .inattivita-azioni .btn-primary { flex: 1; justify-content: center; }
+
+  /* ── Logout confirm dialog ── */
+  .logout-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+  }
+  .logout-overlay.aperta { display: flex; animation: fadeIn .2s ease; }
+  .logout-dialog {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+  }
+  .logout-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--grigio-medio);
+    padding: 4px;
+    line-height: 1;
+    transition: color .15s;
+  }
+  .logout-close:hover { color: var(--verde-scuro); }
+  .logout-titolo {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--verde-scuro);
+    margin-bottom: 12px;
+  }
+  .logout-testo {
+    font-size: 15px;
+    color: var(--grigio-medio);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .logout-azioni {
+    display: flex;
+    gap: 12px;
+  }
+  .logout-azioni .btn-secondary,
+  .logout-azioni .btn-primary { white-space: nowrap; }
 
   .fascia-badge {
     background: rgba(255,255,255,.15);

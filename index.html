@@ -111,9 +111,12 @@
       Indietro
     </button>
     <div class="select-header-badge" id="select-badge">Scuola Primaria · 6–10 anni</div>
-    <div id="select-profilo-chip" class="profilo-chip" style="margin-left:0">
+    <div id="select-profilo-chip" class="profilo-chip profilo-chip-logout" style="margin-left:0" onclick="apriLogoutConfirm()">
       <span class="profilo-chip-avatar" id="select-chip-avatar"></span>
       <span class="profilo-chip-nome" id="select-chip-nome"></span>
+      <span class="profilo-chip-logout-icon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </span>
     </div>
   </div>
   <div class="select-body" id="select-body">
@@ -129,10 +132,17 @@
         Indietro
       </button>
       <div class="game-header-titolo-wrap"><div class="game-header-label">Stai giocando a</div><div class="game-header-title">Quiz a Tempo</div></div>
-      <button class="btn-istruzioni" style="margin-left:auto" onclick="mostraIstruzioni()">
+      <button class="btn-istruzioni" onclick="mostraIstruzioni()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
         Scopri come giocare
       </button>
+      <div id="velocita-profilo-chip" class="profilo-chip profilo-chip-logout" style="margin-left:auto" onclick="apriLogoutConfirm()">
+        <span class="profilo-chip-avatar" id="velocita-chip-avatar"></span>
+        <span class="profilo-chip-nome" id="velocita-chip-nome"></span>
+        <span class="profilo-chip-logout-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </span>
+      </div>
     </div>
     <div class="velocita-body">
       <div class="velocita-titolo">Quanto vuoi andare veloce?</div>
@@ -176,9 +186,12 @@
         Scopri come giocare
       </button>
       <div id="fascia-badge" class="fascia-badge"></div>
-      <div id="profilo-chip" class="profilo-chip" style="margin-left:0">
+      <div id="profilo-chip" class="profilo-chip profilo-chip-logout" style="margin-left:0" onclick="apriLogoutConfirm()">
         <span class="profilo-chip-avatar" id="chip-avatar"></span>
         <span class="profilo-chip-nome" id="chip-nome"></span>
+        <span class="profilo-chip-logout-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </span>
       </div>
     </div>
   </div>
@@ -200,6 +213,36 @@
   </div>
 </div>
 
+
+<!-- ══ INATTIVITÀ DIALOG ══ -->
+<div class="inattivita-overlay" id="inattivita-overlay">
+  <div class="inattivita-dialog">
+    <div class="inattivita-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="inattivita-titolo">Sei ancora lì?</div>
+    <div class="inattivita-testo">Non stai giocando da 4 minuti.<br>La sessione verrà resettata tra <strong><span id="inattivita-countdown">30</span> secondi</strong>.</div>
+    <div class="inattivita-azioni">
+      <button class="btn-secondary" onclick="resetInattivita()">Sono ancora qui</button>
+      <button class="btn-primary" onclick="eseguiLogout()">Abbandona sessione</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGOUT CONFIRM DIALOG ══ -->
+<div class="logout-overlay" id="logout-overlay" onclick="chiudiLogoutConfirm(event)">
+  <div class="logout-dialog">
+    <button class="logout-close" onclick="chiudiLogoutConfirm()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="logout-titolo">Cambia giocatore</div>
+    <div class="logout-testo" id="logout-testo"></div>
+    <div class="logout-azioni">
+      <button class="btn-secondary" onclick="chiudiLogoutConfirm()">Annulla</button>
+      <button class="btn-primary" onclick="eseguiLogout()">Cambia giocatore →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ CREDITI DIALOG ══ -->
 <div class="crediti-overlay" id="crediti-overlay" onclick="chiudiCrediti(event)">

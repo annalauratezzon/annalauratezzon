@@ -1,23 +1,69 @@
 
 /* ══════════════════════════════════════
+   PASSWORD
+══════════════════════════════════════ */
+(function() {
+  if (sessionStorage.getItem('museo_auth') === '1') {
+    const el = document.getElementById('screen-password');
+    if (el) { el.style.display = 'none'; }
+  }
+})();
+
+function verificaPassword() {
+  const input = document.getElementById('password-input');
+  const errore = document.getElementById('password-errore');
+  if (input.value === '!?MuseoDelta2026!?') {
+    sessionStorage.setItem('museo_auth', '1');
+    const overlay = document.getElementById('screen-password');
+    overlay.classList.add('nascosta');
+    input.classList.remove('errore');
+    errore.classList.remove('visibile');
+    setTimeout(() => { overlay.style.display = 'none'; }, 400);
+  } else {
+    input.classList.add('errore');
+    errore.classList.add('visibile');
+    input.value = '';
+    input.focus();
+  }
+}
+
+function togglePasswordVisibility() {
+  const input = document.getElementById('password-input');
+  const eyeShow = document.getElementById('pw-eye-show');
+  const eyeHide = document.getElementById('pw-eye-hide');
+  if (input.type === 'password') {
+    input.type = 'text';
+    eyeShow.style.display = 'none';
+    eyeHide.style.display = '';
+  } else {
+    input.type = 'password';
+    eyeShow.style.display = '';
+    eyeHide.style.display = 'none';
+  }
+}
+
+/* ══════════════════════════════════════
    SUPABASE
 ══════════════════════════════════════ */
-const SUPABASE_URL = 'https://wyvmxvnpepejodjyemoa.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_rBYqzomAmr2djOmrpui8aA_59n7y0et';
+const FB_DB_URL = 'https://classifica-museo-default-rtdb.europe-west1.firebasedatabase.app';
 
-async function sbFetch(path, options = {}) {
-  const res = await fetch(`${SUPABASE_URL}${path}`, {
-    ...options,
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    }
+async function fbSalva(gioco, nome, avatar, punti) {
+  const res = await fetch(`${FB_DB_URL}/leaderboard/${gioco}.json`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome, avatar, punti, created_at: new Date().toISOString() })
   });
-  if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
-  const text = await res.text();
-  return text ? JSON.parse(text) : null;
+  if (!res.ok) throw new Error(`Firebase ${res.status}: ${await res.text()}`);
+  return res.json();
+}
+
+async function fbLeggi(gioco) {
+  const res = await fetch(`${FB_DB_URL}/leaderboard/${gioco}.json`);
+  if (!res.ok) throw new Error(`Firebase ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  if (!data) return [];
+  return Object.values(data)
+    .sort((a, b) => b.punti - a.punti || new Date(b.created_at) - new Date(a.created_at));
 }
 
 /* ══════════════════════════════════════
@@ -1042,6 +1088,7 @@ function prossimaDomandaSec() {
 
 async function mostraRiepilogoSec() {
   qsStopTimer();
+  giochiCompletati.add('quiz-sec');
   const maxPunti = QUIZ_SEC_DOMANDE.length * Math.round((QUIZ_SEC_PUNTI_BASE + QUIZ_SEC_PUNTI_BONUS) * qsScoreMult);
   const pct = Math.round((qsPunteggio / maxPunti) * 100);
 
@@ -1094,7 +1141,7 @@ function renderSelectBody() {
   if (!body) return;
   const cardsHTML = giochi.map(g => {
     const lbKey = g.leaderboard;
-    const lbLink = (lbKey && profiloCorrente.partecipa)
+    const lbLink = (lbKey && profiloCorrente.partecipa && giochiCompletati.has(lbKey))
       ? `<button class="btn-link-secondario" style="font-size:13px;padding:0" onclick="event.stopPropagation();mostraLeaderboardDaLista('${lbKey}')">🏆 Guarda la classifica</button>`
       : '';
     return `
@@ -1186,16 +1233,7 @@ function saltaClassifica() {
 
 async function salvaInClassifica(gioco, punti) {
   if (!profiloCorrente.partecipa) return;
-  await sbFetch('/rest/v1/Leaderboard', {
-    method: 'POST',
-    headers: { 'Prefer': 'return=minimal' },
-    body: JSON.stringify({
-      nome: profiloCorrente.nome,
-      avatar: profiloCorrente.avatar,
-      punti,
-      gioco
-    })
-  });
+  await fbSalva(gioco, profiloCorrente.nome, profiloCorrente.avatar, punti);
 }
 
 function mostraLeaderboardDaLista(gioco) {
@@ -1228,7 +1266,7 @@ async function mostraLeaderboard(gioco, puntiCorrente) {
 
   let lista;
   try {
-    lista = await sbFetch(`/rest/v1/Leaderboard?gioco=eq.${encodeURIComponent(gioco)}&order=punti.desc,created_at.desc`);
+    lista = await fbLeggi(gioco);
   } catch (e) {
     document.querySelector('.leaderboard-lista').innerHTML = '<div class="lb-fuori-top">Errore nel caricamento. Riprova.</div>';
     console.error(e);
@@ -1743,6 +1781,7 @@ function gestisciProssimo() {
 }
 
 async function mostraRiepilogoGestisci() {
+  giochiCompletati.add('gestisci');
   const media = Math.round(Object.values(gestisciIndicatori).reduce((a,b) => a+b, 0) / 4);
 
   let esito, messaggio, emoji;
@@ -2004,6 +2043,7 @@ let viaggioShuffledOpts = [];
 let viaggioPathOffsets = [0, 14.3, 28.6, 42.9, 57.1, 71.4, 85.7, 100];
 let viaggioErroriTappa = {}; // { tappaIdx: contatore errori } — persiste per tutta la partita
 let viaggioCompletati = new Set(); // percorsiIdx completati — persiste per tutta la sessione
+let giochiCompletati = new Set(); // tipi gioco completati ('quiz-sec','gestisci','viaggio') — per mostrare link classifica
 let viaggioDomandaIdx = 0;  // avanza sempre di 1, indipendente dalla posizione sulla mappa
 let _vpOffsetCache = {};    // cache { "percorsoIdx_w_h": offsets[] } — evita ricalcolo ad ogni render
 let _vpEl = null;   // SVG path element persistente per getPointAtLength
@@ -2338,6 +2378,7 @@ function viaggioProssimo(nuovaPosizione) {
 
 async function mostraRiepilogoViaggio(completato, turniUsati, tappeIdx) {
   if (completato) viaggioCompletati.add(viaggioPercorsoIdx);
+  giochiCompletati.add('viaggio');
   const percorso = VIAGGIO_PERCORSI[viaggioPercorsoIdx];
   const tappeRaggiunte = tappeIdx + 1;
   const punteggio = Math.round((tappeRaggiunte / percorso.tappe.length) * 100);

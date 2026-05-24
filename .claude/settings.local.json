@@ -21,7 +21,8 @@
       "Bash(awk 'NR>=1907 && NR<=1922' /Users/alt-privato/Desktop/museo-delta/script.js)",
       "Bash(awk 'NR>=1937 && NR<=1955' /Users/alt-privato/Desktop/museo-delta/script.js)",
       "Bash(awk 'NR>=1970 && NR<=1985' /Users/alt-privato/Desktop/museo-delta/script.js)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(curl -v https://wyvmxvnpepejodjyemoa.supabase.co/rest/v1/Leaderboard?gioco=eq.quiz-sec -H 'apikey: sb_publishable_rBYqzomAmr2djOmrpui8aA_59n7y0et' -H 'Authorization: Bearer sb_publishable_rBYqzomAmr2djOmrpui8aA_59n7y0et')"
     ]
   }
 }
